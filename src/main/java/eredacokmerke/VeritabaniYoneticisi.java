@@ -57,9 +57,10 @@ public class VeritabaniYoneticisi
     /**
      * veritabanindan kategorileri alip Engine -> listeKategoriler i doldurur
      *
+     * @param eng : Engine nesnesi
      * @return basarili ise true yoksa false doner
      */
-    public static boolean kategorileriGetir()
+    public static boolean kategorileriGetir(Engine eng)
     {
         if (conn == null)
         {
@@ -70,7 +71,7 @@ public class VeritabaniYoneticisi
         }
         try
         {
-            Engine.getListeKategoriler().clear();
+            eng.getListeKategoriler().clear();
 
             PreparedStatement pst = conn.prepareStatement("select ISIM from KATEGORI");
             ResultSet rs = pst.executeQuery();
@@ -78,8 +79,9 @@ public class VeritabaniYoneticisi
             {
                 String kategoriIsim = rs.getString("ISIM");
 
-                Engine.getListeKategoriler().add(kategoriIsim);
+                eng.getListeKategoriler().add(kategoriIsim);
             }
+
             return true;
         }
         catch (SQLException e)

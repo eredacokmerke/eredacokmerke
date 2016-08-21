@@ -8,10 +8,10 @@ public class IndexSayfasi extends SayfaYoneticisi
     }
 
     @Override
-    public boolean gerekliVerileriGetir()
+    public boolean gerekliVerileriGetir(Engine eng)
     {
-        super.gerekliVerileriGetir();
-        if (!VeritabaniYoneticisi.kategorileriGetir())
+        super.gerekliVerileriGetir(eng);
+        if (!VeritabaniYoneticisi.kategorileriGetir(eng))
         {
             return false;
         }

@@ -8,15 +8,16 @@ public class SayfaYoneticisi
     /**
      * sayfa cagrildigi zaman yapilacak islemler
      *
+     * @param eng : Engine nesnesi
      * @return basarili ise true yoksa false doner
      */
-    public boolean cagrildi()
+    public boolean cagrildi(Engine eng)
     {
         if (!sistemiBaslat())
         {
             return false;
         }
-        if (!gerekliVerileriGetir())
+        if (!gerekliVerileriGetir(eng))
         {
             return false;
         }
@@ -43,9 +44,10 @@ public class SayfaYoneticisi
      * sayfa cagrildigi zaman icerik icin gerekli verileri veritabanindan
      * getirir. sayfalara ait siniflar tarafindan override edilmeli
      *
+     * @param eng : Engine nesnesi
      * @return basarili ise true yoksa false doner
      */
-    public boolean gerekliVerileriGetir()
+    public boolean gerekliVerileriGetir(Engine eng)
     {
         return true;
     }

@@ -6,15 +6,20 @@ import java.util.List;
 public class Engine
 {
 
-    private static List<String> listeKategoriler = new ArrayList<String>();
+    private List<String> listeKategoriler;
 
-    public static List<String> getListeKategoriler()
+    public Engine()
+    {
+        listeKategoriler = new ArrayList<String>();
+    }
+
+    public List<String> getListeKategoriler()
     {
         return listeKategoriler;
     }
 
-    public static void setListeKategoriler(List<String> listeKategoriler)
+    public void setListeKategoriler(List<String> listeKategoriler)
     {
-        Engine.listeKategoriler = listeKategoriler;
+        this.listeKategoriler = listeKategoriler;
     }
 }
