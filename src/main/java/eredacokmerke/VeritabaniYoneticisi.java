@@ -62,7 +62,7 @@ public class VeritabaniYoneticisi
      */
     public static boolean kategorileriGetir(Engine eng)
     {
-        if (conn == null)
+        if (conn == null)//vt baglantisi yoksa acalim
         {
             if (!vtBaglantisiOlustur())
             {
@@ -87,6 +87,48 @@ public class VeritabaniYoneticisi
         catch (SQLException e)
         {
             HataYoneticisi.yazdir(4, e.getMessage());
+            return false;
+        }
+    }
+
+    /**
+     * veritabanindan makaleleri alip Engine -> listeMakaleler i doldurur
+     *
+     * @param eng : Engine nesnesi
+     * @return
+     */
+    public static boolean makaleleriGetir(Engine eng)
+    {
+        if (conn == null)//vt baglantisi yoksa acalim
+        {
+            if (!vtBaglantisiOlustur())
+            {
+                return false;
+            }
+        }
+        try
+        {
+            eng.getListeMakaleler().clear();
+
+            PreparedStatement pst = conn.prepareStatement("select BASLIK, ICERIK, OZET, OKUNMA  from MAKALE");
+            ResultSet rs = pst.executeQuery();
+            while (rs.next())
+            {
+                String makaleBaslik = rs.getString("BASLIK");
+                String makaleIcerik = rs.getString("ICERIK");
+                String makaleOzet = rs.getString("OZET");
+                String makaleOkunma = rs.getString("OKUNMA");
+
+                Makale makale = new Makale(makaleBaslik, makaleIcerik, makaleOzet, "", "", makaleOkunma, null);
+
+                eng.getListeMakaleler().add(makale);
+            }
+
+            return true;
+        }
+        catch (SQLException e)
+        {
+            HataYoneticisi.yazdir(6, e.getMessage());
             return false;
         }
     }

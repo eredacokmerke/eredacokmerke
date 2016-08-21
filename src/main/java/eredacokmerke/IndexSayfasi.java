@@ -11,7 +11,12 @@ public class IndexSayfasi extends SayfaYoneticisi
     public boolean gerekliVerileriGetir(Engine eng)
     {
         super.gerekliVerileriGetir(eng);
+
         if (!VeritabaniYoneticisi.kategorileriGetir(eng))
+        {
+            return false;
+        }
+        if (!VeritabaniYoneticisi.makaleleriGetir(eng))
         {
             return false;
         }
