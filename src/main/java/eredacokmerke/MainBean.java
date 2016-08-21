@@ -8,16 +8,17 @@ import javax.faces.bean.RequestScoped;
 public class MainBean
 {
 
-    private final Engine engine;//global degiskenlerin tutuldugu engine nesnesi
+    private Engine engine;//global degiskenlerin tutuldugu engine nesnesi
 
     public MainBean()
     {
-        engine = new Engine();
+        
     }
 
     public void indexCagrildi()
     {
         IndexSayfasi indexSayfasi = new IndexSayfasi();
+        engine = new Engine(SayfaYoneticisi.SAYFA_INDEX);
         if (!indexSayfasi.cagrildi(engine))
         {
             HataYoneticisi.yazdir(5, "MainBean.indexCagrildi metodunda hata olustu");

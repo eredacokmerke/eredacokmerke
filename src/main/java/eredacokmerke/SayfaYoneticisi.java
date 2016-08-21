@@ -5,6 +5,8 @@ import static eredacokmerke.VeritabaniYoneticisi.vtBaglantisiOlustur;
 public class SayfaYoneticisi
 {
 
+    public static int SAYFA_INDEX = 0;
+
     /**
      * sayfa cagrildigi zaman yapilacak islemler
      *
