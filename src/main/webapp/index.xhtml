@@ -11,7 +11,8 @@
         <!--[if lte IE 8]><script src="assets/js/ie/html5shiv.js"></script><![endif]-->
         <!--[if lte IE 9]><link rel="stylesheet" href="assets/css/ie9.css" /><![endif]-->
         <!--[if lte IE 8]><link rel="stylesheet" href="assets/css/ie8.css" /><![endif]-->
-        <link href="resources/css/main.css" rel="stylesheet" type="text/css"/>
+        <link href="resources/css/mainn.css" rel="stylesheet" type="text/css"/>
+        <link href="resources/css/sieses.css" rel="stylesheet" type="text/css"/>
     </head>
     <body>
         <f:metadata>
@@ -95,39 +96,50 @@
 
             <!-- Main -->
             <div id="main">
-
-                <ui:repeat value="#{mainBean.engine.listeSonEklenenMakaleler}" var="makale" varStatus="i">
-
+                <ui:repeat value="#{mainBean.engine.listeSonEklenenMakaleler}" var="sonEklenenMakale" varStatus="i">
                     <article class="post">
                         <header>
                             <div class="title">
-                                <h2><a href="#">#{makale.baslik}</a></h2>
+                                <table class="baslik">
+                                    <tr class="baslik tr-border">
+                                        <td class="baslik">
+                                            <div class="baslik">
+                                                <img src="https://placehold.it/60x60" alt="" />
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <div>
+                                                <h2 class="baslik-yazi"><a href="#">#{sonEklenenMakale.baslik}</a></h2>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                </table>  
                                 <!--<p>Lorem ipsum dolor amet nullam consequat etiam feugiat</p>-->
                             </div>
                             <div class="meta">
                                 <time class="published" datetime="2015-11-01">November 1, 2015</time>
-                                <a href="#" class="author"><span class="name">Jane Doe</span><img src="images/avatar.jpg" alt="" /></a>
+                                <a href="#" class="author"><span class="name">Jane Doe</span>
+                                    <!--<img src="images/avatar.jpg" alt="" />-->
+                                </a>
                             </div>
                         </header>
-                        <a href="#" class="image featured"><img src="images/pic01.jpg" alt="" /></a>
-                        <p>#{makale.ozet}</p>
+                        <a href="#" class="image featured">
+                            <img src="images/pic01.jpg" alt="" />
+                        </a>
+                        <p>#{sonEklenenMakale.ozet}</p>
                         <footer>
                             <ul class="actions">
                                 <li><a href="#" class="button big">Continue Reading</a></li>
                             </ul>
                             <ul class="stats">
                                 <li><a href="#">General</a></li>
-                                <li><a href="#" class="icon fa-eye">#{makale.okunma}</a></li>
+                                <li><a href="#" class="icon fa-eye">#{sonEklenenMakale.okunma}</a></li>
                                 <li><a href="#" class="icon fa-heart">28</a></li>
                                 <li><a href="#" class="icon fa-comment">128</a></li>
                             </ul>
                         </footer>
                     </article>
-
-
                 </ui:repeat>
-
-
 
                 <!-- Post 
                 <article class="post">
@@ -156,7 +168,7 @@
                 </article>
                 -->
 
-                
+
 
                 <!-- Post -->
                 <!--
