@@ -96,7 +96,7 @@ public class VeritabaniYoneticisi
      * doldurur
      *
      * @param eng : Engine nesnesi
-     * @return
+     * @return basarili ise true yoksa false doner
      */
     public static boolean sonEklenenMakaleleriGetir(Engine eng)
     {
@@ -140,7 +140,7 @@ public class VeritabaniYoneticisi
      * doldurur
      *
      * @param eng : Engine nesnesi
-     * @return
+     * @return basarili ise true yoksa false doner
      */
     public static boolean cokOKunanMakaleleriGetir(Engine eng)
     {
@@ -175,6 +175,52 @@ public class VeritabaniYoneticisi
         catch (SQLException e)
         {
             HataYoneticisi.yazdir(7, e.getMessage());
+            return false;
+        }
+    }
+
+    /**
+     * engine.okunanMakaleID li makalenin verilerini vertabanindan getirir
+     *
+     * @param eng : Engine nesnesi
+     * @return basarili ise true yoksa false doner
+     */
+    public static boolean makaleGetir(Engine eng)
+    {
+        if (conn == null)//vt baglantisi yoksa acalim
+        {
+            if (!vtBaglantisiOlustur())
+            {
+                return false;
+            }
+        }
+        try
+        {
+            PreparedStatement pst = conn.prepareStatement("select BASLIK, ICERIK, OKUNMA  from MAKALE where ID=?");
+            pst.setString(1, String.valueOf(eng.getOkunanMakaleID()));
+            ResultSet rs = pst.executeQuery();
+            if (rs.first())
+            {
+                String makaleBaslik = rs.getString("BASLIK");
+                String makaleIcerik = rs.getString("ICERIK");
+                String makaleOkunma = rs.getString("OKUNMA");
+
+                Makale makale = new Makale(String.valueOf(eng.getOkunanMakaleID()), makaleBaslik, makaleIcerik, "", "", "", makaleOkunma, null);
+
+                eng.setOkunanMakale(makale);
+
+                return true;
+            }
+            else
+            {
+                HataYoneticisi.yazdir(9, "result set bos");
+                return false;
+            }
+
+        }
+        catch (SQLException e)
+        {
+            HataYoneticisi.yazdir(10, e.getMessage());
             return false;
         }
     }
