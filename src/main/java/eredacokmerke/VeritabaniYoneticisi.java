@@ -92,12 +92,13 @@ public class VeritabaniYoneticisi
     }
 
     /**
-     * veritabanindan makaleleri alip Engine -> listeMakaleler i doldurur
+     * veritabanindan son eklenen makaleleri alip Engine -> listeMakaleler i
+     * doldurur
      *
      * @param eng : Engine nesnesi
      * @return
      */
-    public static boolean makaleleriGetir(Engine eng)
+    public static boolean sonEklenenMakaleleriGetir(Engine eng)
     {
         if (conn == null)//vt baglantisi yoksa acalim
         {
@@ -108,9 +109,9 @@ public class VeritabaniYoneticisi
         }
         try
         {
-            eng.getListeMakaleler().clear();
+            eng.getListeSonEklenenMakaleler().clear();
 
-            PreparedStatement pst = conn.prepareStatement("select BASLIK, ICERIK, OZET, OKUNMA  from MAKALE");
+            PreparedStatement pst = conn.prepareStatement("select BASLIK, ICERIK, OZET, OKUNMA  from MAKALE order by TARIH");
             ResultSet rs = pst.executeQuery();
             while (rs.next())
             {
@@ -121,7 +122,7 @@ public class VeritabaniYoneticisi
 
                 Makale makale = new Makale(makaleBaslik, makaleIcerik, makaleOzet, "", "", makaleOkunma, null);
 
-                eng.getListeMakaleler().add(makale);
+                eng.getListeSonEklenenMakaleler().add(makale);
             }
 
             return true;
@@ -129,6 +130,49 @@ public class VeritabaniYoneticisi
         catch (SQLException e)
         {
             HataYoneticisi.yazdir(6, e.getMessage());
+            return false;
+        }
+    }
+
+    /**
+     * veritabanindan cok okunan makaleleri alip Engine -> listeMakaleler i
+     * doldurur
+     *
+     * @param eng : Engine nesnesi
+     * @return
+     */
+    public static boolean cokOKunanMakaleleriGetir(Engine eng)
+    {
+        if (conn == null)//vt baglantisi yoksa acalim
+        {
+            if (!vtBaglantisiOlustur())
+            {
+                return false;
+            }
+        }
+        try
+        {
+            eng.getListeCokOkunanMakaleler().clear();
+
+            PreparedStatement pst = conn.prepareStatement("select BASLIK, ICERIK, OZET, OKUNMA  from MAKALE order by OKUNMA");
+            ResultSet rs = pst.executeQuery();
+            while (rs.next())
+            {
+                String makaleBaslik = rs.getString("BASLIK");
+                String makaleIcerik = rs.getString("ICERIK");
+                String makaleOzet = rs.getString("OZET");
+                String makaleOkunma = rs.getString("OKUNMA");
+
+                Makale makale = new Makale(makaleBaslik, makaleIcerik, makaleOzet, "", "", makaleOkunma, null);
+
+                eng.getListeCokOkunanMakaleler().add(makale);
+            }
+
+            return true;
+        }
+        catch (SQLException e)
+        {
+            HataYoneticisi.yazdir(7, e.getMessage());
             return false;
         }
     }

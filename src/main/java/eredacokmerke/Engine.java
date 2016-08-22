@@ -7,14 +7,16 @@ public class Engine
 {
 
     private List<String> listeKategoriler;//kategorilerin tutulacagi liste
-    private List<Makale> listeMakaleler;//makalelerin tutulacagi liste
+    private List<Makale> listeCokOkunanMakaleler;//cok okunan makalelerin tutulacagi liste
+    private List<Makale> listeSonEklenenMakaleler;//son eklenen makalelerin tutulacagi liste
 
     public Engine(int sayfa)
     {
         if (sayfa == SayfaYoneticisi.SAYFA_INDEX)//index sayfasinda kullanilacak degiskenler
         {
             listeKategoriler = new ArrayList<String>();
-            listeMakaleler = new ArrayList<Makale>();
+            listeCokOkunanMakaleler = new ArrayList<Makale>();
+            listeSonEklenenMakaleler = new ArrayList<Makale>();
         }
     }
 
@@ -28,13 +30,23 @@ public class Engine
         this.listeKategoriler = listeKategoriler;
     }
 
-    public List<Makale> getListeMakaleler()
+    public List<Makale> getListeCokOkunanMakaleler()
     {
-        return listeMakaleler;
+        return listeCokOkunanMakaleler;
     }
 
-    public void setListeMakaleler(List<Makale> listeMakaleler)
+    public void setListeCokOkunanMakaleler(List<Makale> listeCokOkunanMakaleler)
     {
-        this.listeMakaleler = listeMakaleler;
+        this.listeCokOkunanMakaleler = listeCokOkunanMakaleler;
+    }
+
+    public List<Makale> getListeSonEklenenMakaleler()
+    {
+        return listeSonEklenenMakaleler;
+    }
+
+    public void setListeSonEklenenMakaleler(List<Makale> listeSonEklenenMakaleler)
+    {
+        this.listeSonEklenenMakaleler = listeSonEklenenMakaleler;
     }
 }
