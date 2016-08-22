@@ -4,7 +4,7 @@ import java.util.List;
 
 public class Makale
 {
-
+    String id;
     String baslik;
     String icerik;
     String ozet;
@@ -13,8 +13,9 @@ public class Makale
     String okunma;
     List<String> listeEtiketler;
 
-    public Makale(String baslik, String icerik, String ozet, String tarih, String yazar, String okunma, List<String> listeEtiketler)
+    public Makale(String id, String baslik, String icerik, String ozet, String tarih, String yazar, String okunma, List<String> listeEtiketler)
     {
+        this.id = id;
         this.baslik = baslik;
         this.icerik = icerik;
         this.ozet = ozet;
@@ -92,5 +93,15 @@ public class Makale
     public void setListeEtiketler(List<String> listeEtiketler)
     {
         this.listeEtiketler = listeEtiketler;
+    }
+
+    public String getId()
+    {
+        return id;
+    }
+
+    public void setId(String id)
+    {
+        this.id = id;
     }
 }

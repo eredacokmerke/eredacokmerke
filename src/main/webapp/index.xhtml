@@ -109,12 +109,16 @@
                                         </td>
                                         <td>
                                             <div>
-                                                <h2 class="baslik-yazi"><a href="#">#{sonEklenenMakale.baslik}</a></h2>
+                                                <h2 class="baslik-yazi">
+                                                    <h:link value="#{sonEklenenMakale.baslik}" outcome="makale">
+                                                        <f:param name="id" value="#{sonEklenenMakale.id}" />
+                                                    </h:link>
+                                                </h2>
+                                                <!--<p>Lorem ipsum dolor amet nullam consequat etiam feugiat</p>-->
                                             </div>
                                         </td>
                                     </tr>
                                 </table>  
-                                <!--<p>Lorem ipsum dolor amet nullam consequat etiam feugiat</p>-->
                             </div>
                             <div class="meta">
                                 <time class="published" datetime="2015-11-01">November 1, 2015</time>
@@ -123,9 +127,11 @@
                                 </a>
                             </div>
                         </header>
+                        <!--
                         <a href="#" class="image featured">
                             <img src="images/pic01.jpg" alt="" />
                         </a>
+                        -->
                         <p>#{sonEklenenMakale.ozet}</p>
                         <footer>
                             <ul class="actions">

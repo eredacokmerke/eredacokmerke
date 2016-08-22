@@ -111,16 +111,17 @@ public class VeritabaniYoneticisi
         {
             eng.getListeSonEklenenMakaleler().clear();
 
-            PreparedStatement pst = conn.prepareStatement("select BASLIK, ICERIK, OZET, OKUNMA  from MAKALE order by TARIH");
+            PreparedStatement pst = conn.prepareStatement("select ID, BASLIK, ICERIK, OZET, OKUNMA  from MAKALE order by TARIH");
             ResultSet rs = pst.executeQuery();
             while (rs.next())
             {
+                String makaleID = rs.getString("ID");
                 String makaleBaslik = rs.getString("BASLIK");
                 String makaleIcerik = rs.getString("ICERIK");
                 String makaleOzet = rs.getString("OZET");
                 String makaleOkunma = rs.getString("OKUNMA");
 
-                Makale makale = new Makale(makaleBaslik, makaleIcerik, makaleOzet, "", "", makaleOkunma, null);
+                Makale makale = new Makale(makaleID, makaleBaslik, makaleIcerik, makaleOzet, "", "", makaleOkunma, null);
 
                 eng.getListeSonEklenenMakaleler().add(makale);
             }
@@ -154,16 +155,17 @@ public class VeritabaniYoneticisi
         {
             eng.getListeCokOkunanMakaleler().clear();
 
-            PreparedStatement pst = conn.prepareStatement("select BASLIK, ICERIK, OZET, OKUNMA  from MAKALE order by OKUNMA");
+            PreparedStatement pst = conn.prepareStatement("select ID, BASLIK, ICERIK, OZET, OKUNMA  from MAKALE order by OKUNMA");
             ResultSet rs = pst.executeQuery();
             while (rs.next())
             {
+                String makaleID = rs.getString("ID");
                 String makaleBaslik = rs.getString("BASLIK");
                 String makaleIcerik = rs.getString("ICERIK");
                 String makaleOzet = rs.getString("OZET");
                 String makaleOkunma = rs.getString("OKUNMA");
 
-                Makale makale = new Makale(makaleBaslik, makaleIcerik, makaleOzet, "", "", makaleOkunma, null);
+                Makale makale = new Makale(makaleID, makaleBaslik, makaleIcerik, makaleOzet, "", "", makaleOkunma, null);
 
                 eng.getListeCokOkunanMakaleler().add(makale);
             }
