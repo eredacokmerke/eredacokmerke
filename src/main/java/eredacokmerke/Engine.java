@@ -9,14 +9,23 @@ public class Engine
     private List<String> listeKategoriler;//kategorilerin tutulacagi liste
     private List<Makale> listeCokOkunanMakaleler;//cok okunan makalelerin tutulacagi liste
     private List<Makale> listeSonEklenenMakaleler;//son eklenen makalelerin tutulacagi liste
+    private int okunanMakaleID;
+    private Makale okunanMakale;
 
     public Engine(int sayfa)
     {
-        if (sayfa == SayfaYoneticisi.SAYFA_INDEX)//index sayfasinda kullanilacak degiskenler
+        switch (sayfa)//index sayfasinda kullanilacak degiskenler
         {
-            listeKategoriler = new ArrayList<String>();
-            listeCokOkunanMakaleler = new ArrayList<Makale>();
-            listeSonEklenenMakaleler = new ArrayList<Makale>();
+            case SayfaYoneticisi.SAYFA_INDEX:
+                listeKategoriler = new ArrayList<String>();
+                listeCokOkunanMakaleler = new ArrayList<Makale>();
+                listeSonEklenenMakaleler = new ArrayList<Makale>();
+                break;
+
+            case SayfaYoneticisi.SAYFA_MAKALE:
+                okunanMakaleID = -1;
+                okunanMakale = null;
+                break;
         }
     }
 
@@ -48,5 +57,25 @@ public class Engine
     public void setListeSonEklenenMakaleler(List<Makale> listeSonEklenenMakaleler)
     {
         this.listeSonEklenenMakaleler = listeSonEklenenMakaleler;
+    }
+
+    public int getOkunanMakaleID()
+    {
+        return okunanMakaleID;
+    }
+
+    public void setOkunanMakaleID(int okunanMakaleID)
+    {
+        this.okunanMakaleID = okunanMakaleID;
+    }
+
+    public Makale getOkunanMakale()
+    {
+        return okunanMakale;
+    }
+
+    public void setOkunanMakale(Makale okunanMakale)
+    {
+        this.okunanMakale = okunanMakale;
     }
 }

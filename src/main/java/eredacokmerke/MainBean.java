@@ -2,6 +2,7 @@ package eredacokmerke;
 
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.RequestScoped;
+import javax.faces.context.FacesContext;
 
 @ManagedBean
 @RequestScoped
@@ -12,7 +13,7 @@ public class MainBean
 
     public MainBean()
     {
-        
+
     }
 
     public void indexCagrildi()
@@ -22,6 +23,20 @@ public class MainBean
         if (!indexSayfasi.cagrildi(engine))
         {
             HataYoneticisi.yazdir(5, "MainBean.indexCagrildi metodunda hata olustu");
+        }
+    }
+
+    public void makaleCagrildi()
+    {
+        int id = Integer.valueOf(FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap().get("id"));
+
+        MakaleSayfasi makaleSayfasi = new MakaleSayfasi();
+        engine = new Engine(SayfaYoneticisi.SAYFA_MAKALE);
+        engine.setOkunanMakaleID(id);
+
+        if (!makaleSayfasi.cagrildi(engine))
+        {
+            HataYoneticisi.yazdir(8, "MainBean.indexCagrildi metodunda hata olustu");
         }
     }
 
