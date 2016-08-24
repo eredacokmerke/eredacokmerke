@@ -16,6 +16,9 @@ public class MainBean
 
     }
 
+    /**
+     * index sayfasi cagrildi
+     */
     public void indexCagrildi()
     {
         IndexSayfasi indexSayfasi = new IndexSayfasi();
@@ -26,6 +29,9 @@ public class MainBean
         }
     }
 
+    /**
+     * makale sayfasi cagrildi
+     */
     public void makaleCagrildi()
     {
         int id = Integer.valueOf(FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap().get("id"));
@@ -36,7 +42,24 @@ public class MainBean
 
         if (!makaleSayfasi.cagrildi(engine))
         {
-            HataYoneticisi.yazdir(8, "MainBean.indexCagrildi metodunda hata olustu");
+            HataYoneticisi.yazdir(8, "MainBean.makaleCagrildi metodunda hata olustu");
+        }
+    }
+
+    /**
+     * kategori sayfasi cagrildi
+     */
+    public void kategoriCagrildi()
+    {
+        int id = Integer.valueOf(FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap().get("id"));
+
+        KategoriSayfasi kategoriSayfasi = new KategoriSayfasi();
+        engine = new Engine(SayfaYoneticisi.SAYFA_KATEGORI);
+        engine.setOkunanKategoriID(id);
+
+        if (!kategoriSayfasi.cagrildi(engine))
+        {
+            HataYoneticisi.yazdir(12, "MainBean.kategoriCagrildi metodunda hata olustu");
         }
     }
 

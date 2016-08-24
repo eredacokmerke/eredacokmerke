@@ -26,7 +26,11 @@
                 <nav class="links">
                     <ul>
                         <ui:repeat value="#{mainBean.engine.listeKategoriler}" var="kategori" varStatus="i">
-                            <li><a href="#">#{kategori}</a></li>
+                            <li>
+                                <h:link value="#{kategori.isim}" outcome="kategori">
+                                    <f:param name="id" value="#{kategori.id}" />
+                                </h:link>
+                            </li>
                         </ui:repeat>
                     </ul>
                 </nav>

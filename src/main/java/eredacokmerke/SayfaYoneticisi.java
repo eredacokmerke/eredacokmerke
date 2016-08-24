@@ -7,6 +7,7 @@ public class SayfaYoneticisi
 
     public final static int SAYFA_INDEX = 0;
     public final static int SAYFA_MAKALE = 1;
+    public final static int SAYFA_KATEGORI = 2;
 
     /**
      * sayfa cagrildigi zaman yapilacak islemler

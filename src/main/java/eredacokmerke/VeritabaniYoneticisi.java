@@ -73,13 +73,16 @@ public class VeritabaniYoneticisi
         {
             eng.getListeKategoriler().clear();
 
-            PreparedStatement pst = conn.prepareStatement("select ISIM from KATEGORI");
+            PreparedStatement pst = conn.prepareStatement("select ID, ISIM from KATEGORI");
             ResultSet rs = pst.executeQuery();
             while (rs.next())
             {
                 String kategoriIsim = rs.getString("ISIM");
+                String kategoriID = rs.getString("ID");
 
-                eng.getListeKategoriler().add(kategoriIsim);
+                Kategori kategori = new Kategori(kategoriIsim, kategoriID);
+
+                eng.getListeKategoriler().add(kategori);
             }
 
             return true;
@@ -121,13 +124,12 @@ public class VeritabaniYoneticisi
             {
                 String makaleID = rs.getString("m.ID");
                 String makaleBaslik = rs.getString("m.BASLIK");
-                String makaleIcerik = rs.getString("m.ICERIK");
                 String makaleOzet = rs.getString("m.OZET");
                 String makaleOkunma = rs.getString("m.OKUNMA");
                 String makaleResim = rs.getString("k.RESIM");
                 String makaleEtiket = rs.getString("k.ISIM");
 
-                Makale makale = new Makale(makaleID, makaleBaslik, makaleIcerik, makaleOzet, "", "", makaleOkunma, makaleEtiket, makaleResim);
+                Makale makale = new Makale(makaleID, makaleBaslik, "", makaleOzet, "", "", makaleOkunma, makaleEtiket, makaleResim);
 
                 eng.getListeSonEklenenMakaleler().add(makale);
             }
@@ -171,12 +173,11 @@ public class VeritabaniYoneticisi
             {
                 String makaleID = rs.getString("m.ID");
                 String makaleBaslik = rs.getString("m.BASLIK");
-                String makaleIcerik = rs.getString("m.ICERIK");
                 String makaleOzet = rs.getString("m.OZET");
                 String makaleOkunma = rs.getString("m.OKUNMA");
                 String makaleResim = rs.getString("k.RESIM");
 
-                Makale makale = new Makale(makaleID, makaleBaslik, makaleIcerik, makaleOzet, "", "", makaleOkunma, "", makaleResim);
+                Makale makale = new Makale(makaleID, makaleBaslik, "", makaleOzet, "", "", makaleOkunma, "", makaleResim);
 
                 eng.getListeCokOkunanMakaleler().add(makale);
             }
@@ -232,11 +233,59 @@ public class VeritabaniYoneticisi
                 HataYoneticisi.yazdir(9, "result set bos");
                 return false;
             }
-
         }
         catch (SQLException e)
         {
             HataYoneticisi.yazdir(10, e.getMessage());
+            return false;
+        }
+    }
+
+    /**
+     * veritabanindan kategoriye ait makaleleri alip Engine ->
+     * listeKategoriMakaleler i doldurur
+     *
+     * @param eng : Engine nesnesi
+     * @return basarili ise true yoksa false doner
+     */
+    public static boolean kategoriMakaleleriGetir(Engine eng)
+    {
+        if (conn == null)//vt baglantisi yoksa acalim
+        {
+            if (!vtBaglantisiOlustur())
+            {
+                return false;
+            }
+        }
+        try
+        {
+            eng.getListeKategoriMakaleler().clear();
+
+            PreparedStatement pst = conn.prepareStatement(""
+                    + "select m.ID, m.BASLIK, m.OZET, m.OKUNMA, k.RESIM, k.ISIM "
+                    + "from MAKALE AS m, KATEGORI AS k "
+                    + "where m.ETIKET=k.ID and k.ID=?");
+            pst.setString(1, String.valueOf(eng.getOkunanKategoriID()));
+            ResultSet rs = pst.executeQuery();
+            while (rs.next())
+            {
+                String makaleID = rs.getString("m.ID");
+                String makaleBaslik = rs.getString("m.BASLIK");
+                String makaleOzet = rs.getString("m.OZET");
+                String makaleOkunma = rs.getString("m.OKUNMA");
+                String makaleResim = rs.getString("k.RESIM");
+                String makaleEtiket = rs.getString("k.ISIM");
+
+                Makale makale = new Makale(makaleID, makaleBaslik, "", makaleOzet, "", "", makaleOkunma, makaleEtiket, makaleResim);
+
+                eng.getListeKategoriMakaleler().add(makale);
+            }
+
+            return true;
+        }
+        catch (SQLException e)
+        {
+            HataYoneticisi.yazdir(7, e.getMessage());
             return false;
         }
     }
