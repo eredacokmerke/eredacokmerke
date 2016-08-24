@@ -23,6 +23,7 @@ public class Engine
                 break;
 
             case SayfaYoneticisi.SAYFA_MAKALE:
+                listeKategoriler = new ArrayList<String>();
                 okunanMakaleID = -1;
                 okunanMakale = null;
                 break;

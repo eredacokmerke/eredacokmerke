@@ -16,6 +16,10 @@ public class MakaleSayfasi extends SayfaYoneticisi
         {
             return false;
         }
+        if (!VeritabaniYoneticisi.kategorileriGetir(eng))
+        {
+            return false;
+        }
 
         return true;
     }
