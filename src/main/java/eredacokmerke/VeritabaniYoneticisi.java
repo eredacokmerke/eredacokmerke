@@ -112,7 +112,7 @@ public class VeritabaniYoneticisi
             eng.getListeSonEklenenMakaleler().clear();
 
             PreparedStatement pst = conn.prepareStatement(""
-                    + "select m.ID, m.BASLIK, m.ICERIK, m.OZET, m.OKUNMA, k.RESIM "
+                    + "select m.ID, m.BASLIK, m.ICERIK, m.OZET, m.OKUNMA, k.RESIM, k.ISIM "
                     + "from MAKALE as m, KATEGORI as k "
                     + "where m.ETIKET=k.ID "
                     + "order by TARIH");
@@ -125,8 +125,9 @@ public class VeritabaniYoneticisi
                 String makaleOzet = rs.getString("m.OZET");
                 String makaleOkunma = rs.getString("m.OKUNMA");
                 String makaleResim = rs.getString("k.RESIM");
+                String makaleEtiket = rs.getString("k.ISIM");
 
-                Makale makale = new Makale(makaleID, makaleBaslik, makaleIcerik, makaleOzet, "", "", makaleOkunma, "", makaleResim);
+                Makale makale = new Makale(makaleID, makaleBaslik, makaleIcerik, makaleOzet, "", "", makaleOkunma, makaleEtiket, makaleResim);
 
                 eng.getListeSonEklenenMakaleler().add(makale);
             }
@@ -207,7 +208,7 @@ public class VeritabaniYoneticisi
         try
         {
             PreparedStatement pst = conn.prepareStatement(""
-                    + "select m.BASLIK, m.ICERIK, m.OKUNMA, k.RESIM "
+                    + "select m.BASLIK, m.ICERIK, m.OKUNMA, k.RESIM, k.ISIM "
                     + "from MAKALE AS m, KATEGORI AS k "
                     + "where m.ETIKET=k.ID and m.ID=?");
             pst.setString(1, String.valueOf(eng.getOkunanMakaleID()));
@@ -218,8 +219,9 @@ public class VeritabaniYoneticisi
                 String makaleIcerik = rs.getString("m.ICERIK");
                 String makaleOkunma = rs.getString("m.OKUNMA");
                 String makaleResim = rs.getString("k.RESIM");
+                String makaleEtiket = rs.getString("k.ISIM");
 
-                Makale makale = new Makale(String.valueOf(eng.getOkunanMakaleID()), makaleBaslik, makaleIcerik, "", "", "", makaleOkunma, "", makaleResim);
+                Makale makale = new Makale(String.valueOf(eng.getOkunanMakaleID()), makaleBaslik, makaleIcerik, "", "", "", makaleOkunma, makaleEtiket, makaleResim);
 
                 eng.setOkunanMakale(makale);
 
