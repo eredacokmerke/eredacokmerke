@@ -111,17 +111,22 @@ public class VeritabaniYoneticisi
         {
             eng.getListeSonEklenenMakaleler().clear();
 
-            PreparedStatement pst = conn.prepareStatement("select ID, BASLIK, ICERIK, OZET, OKUNMA  from MAKALE order by TARIH");
+            PreparedStatement pst = conn.prepareStatement(""
+                    + "select m.ID, m.BASLIK, m.ICERIK, m.OZET, m.OKUNMA, k.RESIM "
+                    + "from MAKALE as m, KATEGORI as k "
+                    + "where m.ETIKET=k.ID "
+                    + "order by TARIH");
             ResultSet rs = pst.executeQuery();
             while (rs.next())
             {
-                String makaleID = rs.getString("ID");
-                String makaleBaslik = rs.getString("BASLIK");
-                String makaleIcerik = rs.getString("ICERIK");
-                String makaleOzet = rs.getString("OZET");
-                String makaleOkunma = rs.getString("OKUNMA");
+                String makaleID = rs.getString("m.ID");
+                String makaleBaslik = rs.getString("m.BASLIK");
+                String makaleIcerik = rs.getString("m.ICERIK");
+                String makaleOzet = rs.getString("m.OZET");
+                String makaleOkunma = rs.getString("m.OKUNMA");
+                String makaleResim = rs.getString("k.RESIM");
 
-                Makale makale = new Makale(makaleID, makaleBaslik, makaleIcerik, makaleOzet, "", "", makaleOkunma, null);
+                Makale makale = new Makale(makaleID, makaleBaslik, makaleIcerik, makaleOzet, "", "", makaleOkunma, "", makaleResim);
 
                 eng.getListeSonEklenenMakaleler().add(makale);
             }
@@ -155,17 +160,22 @@ public class VeritabaniYoneticisi
         {
             eng.getListeCokOkunanMakaleler().clear();
 
-            PreparedStatement pst = conn.prepareStatement("select ID, BASLIK, ICERIK, OZET, OKUNMA  from MAKALE order by OKUNMA");
+            PreparedStatement pst = conn.prepareStatement(""
+                    + "select m.ID, m.BASLIK, m.ICERIK, m.OZET, m.OKUNMA, k.RESIM "
+                    + "from MAKALE AS m, KATEGORI AS k "
+                    + "where m.ETIKET=k.ID "
+                    + "order by OKUNMA");
             ResultSet rs = pst.executeQuery();
             while (rs.next())
             {
-                String makaleID = rs.getString("ID");
-                String makaleBaslik = rs.getString("BASLIK");
-                String makaleIcerik = rs.getString("ICERIK");
-                String makaleOzet = rs.getString("OZET");
-                String makaleOkunma = rs.getString("OKUNMA");
+                String makaleID = rs.getString("m.ID");
+                String makaleBaslik = rs.getString("m.BASLIK");
+                String makaleIcerik = rs.getString("m.ICERIK");
+                String makaleOzet = rs.getString("m.OZET");
+                String makaleOkunma = rs.getString("m.OKUNMA");
+                String makaleResim = rs.getString("k.RESIM");
 
-                Makale makale = new Makale(makaleID, makaleBaslik, makaleIcerik, makaleOzet, "", "", makaleOkunma, null);
+                Makale makale = new Makale(makaleID, makaleBaslik, makaleIcerik, makaleOzet, "", "", makaleOkunma, "", makaleResim);
 
                 eng.getListeCokOkunanMakaleler().add(makale);
             }
@@ -196,16 +206,20 @@ public class VeritabaniYoneticisi
         }
         try
         {
-            PreparedStatement pst = conn.prepareStatement("select BASLIK, ICERIK, OKUNMA  from MAKALE where ID=?");
+            PreparedStatement pst = conn.prepareStatement(""
+                    + "select m.BASLIK, m.ICERIK, m.OKUNMA, k.RESIM "
+                    + "from MAKALE AS m, KATEGORI AS k "
+                    + "where m.ETIKET=k.ID and m.ID=?");
             pst.setString(1, String.valueOf(eng.getOkunanMakaleID()));
             ResultSet rs = pst.executeQuery();
             if (rs.first())
             {
-                String makaleBaslik = rs.getString("BASLIK");
-                String makaleIcerik = rs.getString("ICERIK");
-                String makaleOkunma = rs.getString("OKUNMA");
+                String makaleBaslik = rs.getString("m.BASLIK");
+                String makaleIcerik = rs.getString("m.ICERIK");
+                String makaleOkunma = rs.getString("m.OKUNMA");
+                String makaleResim = rs.getString("k.RESIM");
 
-                Makale makale = new Makale(String.valueOf(eng.getOkunanMakaleID()), makaleBaslik, makaleIcerik, "", "", "", makaleOkunma, null);
+                Makale makale = new Makale(String.valueOf(eng.getOkunanMakaleID()), makaleBaslik, makaleIcerik, "", "", "", makaleOkunma, "", makaleResim);
 
                 eng.setOkunanMakale(makale);
 

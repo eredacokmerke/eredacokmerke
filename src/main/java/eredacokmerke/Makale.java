@@ -1,9 +1,8 @@
 package eredacokmerke;
 
-import java.util.List;
-
 public class Makale
 {
+
     String id;
     String baslik;
     String icerik;
@@ -11,9 +10,10 @@ public class Makale
     String tarih;
     String yazar;
     String okunma;
-    List<String> listeEtiketler;
+    String etiket;
+    String resim;
 
-    public Makale(String id, String baslik, String icerik, String ozet, String tarih, String yazar, String okunma, List<String> listeEtiketler)
+    public Makale(String id, String baslik, String icerik, String ozet, String tarih, String yazar, String okunma, String etiket, String resim)
     {
         this.id = id;
         this.baslik = baslik;
@@ -22,7 +22,8 @@ public class Makale
         this.tarih = tarih;
         this.yazar = yazar;
         this.okunma = okunma;
-        this.listeEtiketler = listeEtiketler;
+        this.etiket = etiket;
+        this.resim = resim;
     }
 
     public String getOkunma()
@@ -85,16 +86,6 @@ public class Makale
         this.yazar = yazar;
     }
 
-    public List<String> getListeEtiketler()
-    {
-        return listeEtiketler;
-    }
-
-    public void setListeEtiketler(List<String> listeEtiketler)
-    {
-        this.listeEtiketler = listeEtiketler;
-    }
-
     public String getId()
     {
         return id;
@@ -103,5 +94,25 @@ public class Makale
     public void setId(String id)
     {
         this.id = id;
+    }
+
+    public String getEtiket()
+    {
+        return etiket;
+    }
+
+    public void setEtiket(String etiket)
+    {
+        this.etiket = etiket;
+    }
+
+    public String getResim()
+    {
+        return resim;
+    }
+
+    public void setResim(String resim)
+    {
+        this.resim = resim;
     }
 }
