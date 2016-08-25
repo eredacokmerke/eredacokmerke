@@ -167,7 +167,7 @@ public class VeritabaniYoneticisi
                     + "select m.ID, m.BASLIK, m.ICERIK, m.OZET, m.OKUNMA, k.RESIM "
                     + "from MAKALE AS m, KATEGORI AS k "
                     + "where m.ETIKET=k.ID "
-                    + "order by OKUNMA");
+                    + "order by OKUNMA desc");
             ResultSet rs = pst.executeQuery();
             while (rs.next())
             {
@@ -285,7 +285,41 @@ public class VeritabaniYoneticisi
         }
         catch (SQLException e)
         {
-            HataYoneticisi.yazdir(7, e.getMessage());
+            HataYoneticisi.yazdir(13, e.getMessage());
+            return false;
+        }
+    }
+
+    /**
+     * makale sayfasina girildikce veritabaninda makalenin okunma sayisini 1
+     * arttirir
+     *
+     * @param eng : Engine nesnesi
+     * @return basarili ise true yoksa false doner
+     */
+    public static boolean makaleOkunmaSayisiArttir(Engine eng)
+    {
+        if (conn == null)//vt baglantisi yoksa acalim
+        {
+            if (!vtBaglantisiOlustur())
+            {
+                return false;
+            }
+        }
+        try
+        {
+            PreparedStatement pst = conn.prepareStatement("update MAKALE set OKUNMA = OKUNMA + 1 where ID = ?");
+            pst.setString(1, String.valueOf(eng.getOkunanMakaleID()));
+            if (pst.executeUpdate() == 0)
+            {
+                HataYoneticisi.yazdir(14, "makale okunma bilgisi guncellenemedi");
+            }
+
+            return true;
+        }
+        catch (SQLException e)
+        {
+            HataYoneticisi.yazdir(15, e.getMessage());
             return false;
         }
     }

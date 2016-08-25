@@ -24,4 +24,16 @@ public class MakaleSayfasi extends SayfaYoneticisi
         return true;
     }
 
+    @Override
+    public boolean okunmaSayisiniArttir(Engine eng)
+    {
+        super.okunmaSayisiniArttir(eng);
+
+        if (!VeritabaniYoneticisi.makaleOkunmaSayisiArttir(eng))
+        {
+            return false;
+        }
+        
+        return true;
+    }
 }

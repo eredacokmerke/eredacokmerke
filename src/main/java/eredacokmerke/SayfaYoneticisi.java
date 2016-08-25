@@ -25,6 +25,10 @@ public class SayfaYoneticisi
         {
             return false;
         }
+        if (!okunmaSayisiniArttir(eng))
+        {
+            return false;
+        }
 
         return true;
     }
@@ -52,6 +56,17 @@ public class SayfaYoneticisi
      * @return basarili ise true yoksa false doner
      */
     public boolean gerekliVerileriGetir(Engine eng)
+    {
+        return true;
+    }
+
+    /**
+     * makale ve kategori sayfalari acildikta okunma sayilarini 1 arttirir
+     *
+     * @param eng : Engine nesnesi
+     * @return basarili ise true yoksa false doner
+     */
+    public boolean okunmaSayisiniArttir(Engine eng)
     {
         return true;
     }
