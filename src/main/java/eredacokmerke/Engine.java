@@ -28,6 +28,7 @@ public class Engine
                 listeKategoriler = new ArrayList<Kategori>();
                 okunanMakaleID = -1;
                 okunanMakale = null;
+                okunanKategoriID = -1;
                 break;
 
             case SayfaYoneticisi.SAYFA_KATEGORI:

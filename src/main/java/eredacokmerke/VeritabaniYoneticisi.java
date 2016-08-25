@@ -209,7 +209,7 @@ public class VeritabaniYoneticisi
         try
         {
             PreparedStatement pst = conn.prepareStatement(""
-                    + "select m.BASLIK, m.ICERIK, m.OKUNMA, k.RESIM, k.ISIM "
+                    + "select m.BASLIK, m.ICERIK, m.OKUNMA, k.RESIM, k.ISIM, k.ID "
                     + "from MAKALE AS m, KATEGORI AS k "
                     + "where m.ETIKET=k.ID and m.ID=?");
             pst.setString(1, String.valueOf(eng.getOkunanMakaleID()));
@@ -221,10 +221,12 @@ public class VeritabaniYoneticisi
                 String makaleOkunma = rs.getString("m.OKUNMA");
                 String makaleResim = rs.getString("k.RESIM");
                 String makaleEtiket = rs.getString("k.ISIM");
+                String makaleKategoriID = rs.getString("k.ID");
 
                 Makale makale = new Makale(String.valueOf(eng.getOkunanMakaleID()), makaleBaslik, makaleIcerik, "", "", "", makaleOkunma, makaleEtiket, makaleResim);
 
                 eng.setOkunanMakale(makale);
+                eng.setOkunanKategoriID(Integer.parseInt(makaleKategoriID));
 
                 return true;
             }
@@ -320,6 +322,40 @@ public class VeritabaniYoneticisi
         catch (SQLException e)
         {
             HataYoneticisi.yazdir(15, e.getMessage());
+            return false;
+        }
+    }
+
+    /**
+     * kategori sayfasina girildikce veritabaninda kategorinin okunma sayisini 1
+     * arttirir
+     *
+     * @param eng : Engine nesnesi
+     * @return basarili ise true yoksa false doner
+     */
+    public static boolean kategoriOkunmaSayisiArttir(Engine eng)
+    {
+        if (conn == null)//vt baglantisi yoksa acalim
+        {
+            if (!vtBaglantisiOlustur())
+            {
+                return false;
+            }
+        }
+        try
+        {
+            PreparedStatement pst = conn.prepareStatement("update KATEGORI set OKUNMA = OKUNMA + 1 where ID = ?");
+            pst.setString(1, String.valueOf(eng.getOkunanKategoriID()));
+            if (pst.executeUpdate() == 0)
+            {
+                HataYoneticisi.yazdir(14, "kategori okunma bilgisi guncellenemedi");
+            }
+
+            return true;
+        }
+        catch (SQLException e)
+        {
+            HataYoneticisi.yazdir(16, e.getMessage());
             return false;
         }
     }

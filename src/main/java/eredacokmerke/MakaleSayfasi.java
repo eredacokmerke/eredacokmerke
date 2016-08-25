@@ -33,7 +33,11 @@ public class MakaleSayfasi extends SayfaYoneticisi
         {
             return false;
         }
-        
+        if (!VeritabaniYoneticisi.kategoriOkunmaSayisiArttir(eng))
+        {
+            return false;
+        }
+
         return true;
     }
 }

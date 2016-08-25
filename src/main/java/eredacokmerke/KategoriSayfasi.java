@@ -23,4 +23,17 @@ public class KategoriSayfasi extends SayfaYoneticisi
 
         return true;
     }
+
+    @Override
+    public boolean okunmaSayisiniArttir(Engine eng)
+    {
+        super.okunmaSayisiniArttir(eng);
+
+        if (!VeritabaniYoneticisi.kategoriOkunmaSayisiArttir(eng))
+        {
+            return false;
+        }
+
+        return true;
+    }
 }
