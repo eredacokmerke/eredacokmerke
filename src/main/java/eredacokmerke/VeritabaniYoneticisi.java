@@ -115,7 +115,7 @@ public class VeritabaniYoneticisi
             eng.getListeSonEklenenMakaleler().clear();
 
             PreparedStatement pst = conn.prepareStatement(""
-                    + "select m.ID, m.BASLIK, m.ICERIK, m.OZET, m.OKUNMA, k.RESIM, k.ISIM "
+                    + "select m.ID, m.BASLIK, m.ICERIK, m.OZET, m.OKUNMA, k.RESIM, k.ISIM, k.ID "
                     + "from MAKALE as m, KATEGORI as k "
                     + "where m.ETIKET=k.ID "
                     + "order by TARIH");
@@ -128,8 +128,9 @@ public class VeritabaniYoneticisi
                 String makaleOkunma = rs.getString("m.OKUNMA");
                 String makaleResim = rs.getString("k.RESIM");
                 String makaleEtiket = rs.getString("k.ISIM");
+                String makaleEtiketID = rs.getString("k.ID");
 
-                Makale makale = new Makale(makaleID, makaleBaslik, "", makaleOzet, "", "", makaleOkunma, makaleEtiket, makaleResim);
+                Makale makale = new Makale(makaleID, makaleBaslik, "", makaleOzet, "", "", makaleOkunma, makaleEtiket, makaleEtiketID, makaleResim);
 
                 eng.getListeSonEklenenMakaleler().add(makale);
             }
@@ -177,7 +178,7 @@ public class VeritabaniYoneticisi
                 String makaleOkunma = rs.getString("m.OKUNMA");
                 String makaleResim = rs.getString("k.RESIM");
 
-                Makale makale = new Makale(makaleID, makaleBaslik, "", makaleOzet, "", "", makaleOkunma, "", makaleResim);
+                Makale makale = new Makale(makaleID, makaleBaslik, "", makaleOzet, "", "", makaleOkunma, "", "", makaleResim);
 
                 eng.getListeCokOkunanMakaleler().add(makale);
             }
@@ -223,7 +224,7 @@ public class VeritabaniYoneticisi
                 String makaleEtiket = rs.getString("k.ISIM");
                 String makaleKategoriID = rs.getString("k.ID");
 
-                Makale makale = new Makale(String.valueOf(eng.getOkunanMakaleID()), makaleBaslik, makaleIcerik, "", "", "", makaleOkunma, makaleEtiket, makaleResim);
+                Makale makale = new Makale(String.valueOf(eng.getOkunanMakaleID()), makaleBaslik, makaleIcerik, "", "", "", makaleOkunma, makaleEtiket, makaleKategoriID, makaleResim);
 
                 eng.setOkunanMakale(makale);
                 eng.setOkunanKategoriID(Integer.parseInt(makaleKategoriID));
@@ -264,7 +265,7 @@ public class VeritabaniYoneticisi
             eng.getListeKategoriMakaleler().clear();
 
             PreparedStatement pst = conn.prepareStatement(""
-                    + "select m.ID, m.BASLIK, m.OZET, m.OKUNMA, k.RESIM, k.ISIM "
+                    + "select m.ID, m.BASLIK, m.OZET, m.OKUNMA, k.RESIM, k.ISIM, k.ID "
                     + "from MAKALE AS m, KATEGORI AS k "
                     + "where m.ETIKET=k.ID and k.ID=?");
             pst.setString(1, String.valueOf(eng.getOkunanKategoriID()));
@@ -277,8 +278,9 @@ public class VeritabaniYoneticisi
                 String makaleOkunma = rs.getString("m.OKUNMA");
                 String makaleResim = rs.getString("k.RESIM");
                 String makaleEtiket = rs.getString("k.ISIM");
+                String makaleEtiketID = rs.getString("k.ID");
 
-                Makale makale = new Makale(makaleID, makaleBaslik, "", makaleOzet, "", "", makaleOkunma, makaleEtiket, makaleResim);
+                Makale makale = new Makale(makaleID, makaleBaslik, "", makaleOzet, "", "", makaleOkunma, makaleEtiket, makaleEtiketID, makaleResim);
 
                 eng.getListeKategoriMakaleler().add(makale);
             }

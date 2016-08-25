@@ -142,7 +142,11 @@
                                 <li><a href="#" class="button big">Continue Reading</a></li>
                             </ul>
                             <ul class="stats">
-                                <li><a href="#">#{sonEklenenMakale.etiket}</a></li>
+                                <li>
+                                    <h:link value="#{sonEklenenMakale.etiket}" outcome="kategori">
+                                        <f:param name="id" value="#{sonEklenenMakale.etiketID}" />
+                                    </h:link>
+                                </li>
                                 <li><a href="#" class="icon fa-eye">#{sonEklenenMakale.okunma}</a></li>
                                 <!--<li><a href="#" class="icon fa-heart">28</a></li>
                                 <li><a href="#" class="icon fa-comment">128</a></li>-->
@@ -509,10 +513,10 @@ print 'It took ' + i + ' iterations to sort the deck.';</code></pre>
                 <!-- Intro -->
                 <section id="intro" class="ortala">
                     <div class="logo"><img src="resources/images/logo.png" alt=""/></div>
-                     <!--<header>
-                        <h2>EREDACOKMERKE</h2>
-                       <p>Another fine responsive site template by <a href="http://html5up.net">HTML5 UP</a></p>
-                    </header>-->
+                    <!--<header>
+                       <h2>EREDACOKMERKE</h2>
+                      <p>Another fine responsive site template by <a href="http://html5up.net">HTML5 UP</a></p>
+                   </header>-->
                 </section>
 
                 <!-- Mini Posts 

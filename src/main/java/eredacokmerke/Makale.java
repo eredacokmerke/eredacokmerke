@@ -11,9 +11,10 @@ public class Makale
     String yazar;
     String okunma;
     String etiket;
+    String etiketID;
     String resim;
 
-    public Makale(String id, String baslik, String icerik, String ozet, String tarih, String yazar, String okunma, String etiket, String resim)
+    public Makale(String id, String baslik, String icerik, String ozet, String tarih, String yazar, String okunma, String etiket, String etiketID, String resim)
     {
         this.id = id;
         this.baslik = baslik;
@@ -23,7 +24,18 @@ public class Makale
         this.yazar = yazar;
         this.okunma = okunma;
         this.etiket = etiket;
+        this.etiketID = etiketID;
         this.resim = resim;
+    }
+
+    public String getEtiketID()
+    {
+        return etiketID;
+    }
+
+    public void setEtiketID(String etiketID)
+    {
+        this.etiketID = etiketID;
     }
 
     public String getOkunma()
