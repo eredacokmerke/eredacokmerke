@@ -3247,10 +3247,10 @@
 	#intro .logo {
 		border-bottom: 0;
 		display: inline-block;
-		margin: 0 0 1em 0;
+		margin: 0 0 0 0;
 		overflow: hidden;
 		position: relative;
-		width: 4em;
+		width: 10em;
 	}
 
 		#intro .logo:before {
@@ -3270,7 +3270,7 @@
 		#intro .logo img {
 			display: block;
 			margin-left: -0.25em;
-			width: 4.5em;
+			width: 10em;
 		}
 
 	#intro header h2 {
