@@ -21,11 +21,11 @@ public class SayfaYoneticisi
         {
             return false;
         }
-        if (!gerekliVerileriGetir(eng))
+        if (!okunmaSayisiniArttir(eng))
         {
             return false;
         }
-        if (!okunmaSayisiniArttir(eng))
+        if (!gerekliVerileriGetir(eng))
         {
             return false;
         }
