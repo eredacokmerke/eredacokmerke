@@ -39,6 +39,7 @@ public class MainBean
         MakaleSayfasi makaleSayfasi = new MakaleSayfasi();
         engine = new Engine(SayfaYoneticisi.SAYFA_MAKALE);
         engine.setOkunanMakaleID(id);
+        engine.setOkunanKategoriID(Integer.parseInt(engine.kategoriIDyiGetir(engine.getOkunanMakaleID())));
 
         if (!makaleSayfasi.cagrildi(engine))
         {

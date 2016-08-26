@@ -350,15 +350,54 @@ public class VeritabaniYoneticisi
             pst.setString(1, String.valueOf(eng.getOkunanKategoriID()));
             if (pst.executeUpdate() == 0)
             {
-                HataYoneticisi.yazdir(14, "kategori okunma bilgisi guncellenemedi");
+                HataYoneticisi.yazdir(16, "kategori okunma bilgisi guncellenemedi");
             }
 
             return true;
         }
         catch (SQLException e)
         {
-            HataYoneticisi.yazdir(16, e.getMessage());
+            HataYoneticisi.yazdir(17, e.getMessage());
             return false;
+        }
+    }
+
+    /**
+     * makalenin kategorisinin idsini doner
+     *
+     * @param makaleID : makalenin idsi
+     * @return eger basarili ise kategori id, hata olursa -1 doner
+     */
+    public static String kategoriIDyiGetir(int makaleID)
+    {
+        if (conn == null)//vt baglantisi yoksa acalim
+        {
+            if (!vtBaglantisiOlustur())
+            {
+                HataYoneticisi.yazdir(18, "vt baglantisi olusturulurken hata olustu");
+                return "-1";
+            }
+        }
+        try
+        {
+            PreparedStatement pst = conn.prepareStatement("select k.ID from MAKALE AS m, KATEGORI AS k where m.ETIKET=k.ID and m.ID=?");
+            pst.setString(1, String.valueOf(makaleID));
+            ResultSet rs = pst.executeQuery();
+            if (rs.next())
+            {
+                String kategoriID = rs.getString("k.ID");
+                return kategoriID;
+            }
+            else
+            {
+                HataYoneticisi.yazdir(19, "result set bos");
+                return "-1";
+            }
+        }
+        catch (SQLException e)
+        {
+            HataYoneticisi.yazdir(20, e.getMessage());
+            return "-1";
         }
     }
 }

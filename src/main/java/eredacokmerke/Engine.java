@@ -42,6 +42,17 @@ public class Engine
         }
     }
 
+    /**
+     * makalenin kategorisinin idsini doner
+     *
+     * @param makaleID : makalenin idsi
+     * @return eger basarili ise kategori id, hata olursa -1 doner
+     */
+    public String kategoriIDyiGetir(int makaleID)
+    {
+        return VeritabaniYoneticisi.kategoriIDyiGetir(makaleID);
+    }
+
     public List<Kategori> getListeKategoriler()
     {
         return listeKategoriler;
