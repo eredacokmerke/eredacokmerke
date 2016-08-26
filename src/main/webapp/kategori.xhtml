@@ -139,7 +139,11 @@
                         <p>#{kategoriMakale.ozet}</p>
                         <footer>
                             <ul class="actions">
-                                <li><a href="#" class="button big">Continue Reading</a></li>
+                                <li>
+                                    <h:link class="button big" value="Okumaya Devam" outcome="makale">
+                                        <f:param name="id" value="#{kategoriMakale.id}" />
+                                    </h:link>
+                                </li>
                             </ul>
                             <ul class="stats">
                                 <li>
