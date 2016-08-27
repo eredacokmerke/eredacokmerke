@@ -1717,10 +1717,10 @@
 		font-family: "Raleway", Helvetica, sans-serif;
 		font-size: 0.6em;
 		font-weight: 800;
-		height: 4.8125em;
+		height: 3.5em;
 		letter-spacing: 0.25em;
-		line-height: 4.8125em;
-		padding: 0 2.5em;
+		line-height: 3.5em;
+		padding: 0 1.5em;
 		text-align: center;
 		text-decoration: none;
 		text-transform: uppercase;
@@ -1791,7 +1791,7 @@
 		button.big,
 		.button.big {
 			font-size: 0.7em;
-			padding: 0 3em;
+			/*padding: 0 3em;*/
 		}
 
 		input[type="submit"].small,
@@ -2235,6 +2235,25 @@
 				ul.actions li:last-child {
 					padding-right: 0;
 				}
+                                
+                        ul.actions.pagination .last {
+				text-decoration: none;
+			}
+
+				ul.actions.pagination .last:after {
+					content: "";
+					-moz-osx-font-smoothing: grayscale;
+					-webkit-font-smoothing: antialiased;
+					font-family: FontAwesome;
+					font-style: normal;
+					font-weight: normal;
+					text-transform: none !important;
+                                        font-size: 18px;
+				}
+
+				ul.actions.pagination .last:after {
+					content: '\f101';
+				}
 
 			ul.actions.pagination .next {
 				text-decoration: none;
@@ -2247,7 +2266,7 @@
 					font-family: FontAwesome;
 					font-style: normal;
 					font-weight: normal;
-					text-transform: none !important;
+					text-transform: none !important;    
 				}
 
 				ul.actions.pagination .next:after {
@@ -2271,25 +2290,49 @@
 				ul.actions.pagination .previous:before {
 					content: '\f053';
 				}
+                                
+                                ul.actions.pagination .first {
+				text-decoration: none;
+			}
+
+				ul.actions.pagination .first:before {
+					content: "";
+					-moz-osx-font-smoothing: grayscale;
+					-webkit-font-smoothing: antialiased;
+					font-family: FontAwesome;
+					font-style: normal;
+					font-weight: normal;
+					text-transform: none !important;
+                                        font-size: 18px;
+				}
+
+				ul.actions.pagination .first:before {
+					content: '\f100';
+				}
+                                
+                                ul.actions.pagination {
+					text-align: center;
+                                }
 
 			@media screen and (max-width: 1280px) {
 
 				ul.actions.pagination {
 					text-align: center;
 				}
-
+/*
 					ul.actions.pagination .next, ul.actions.pagination .previous {
 						min-width: 20em;
 					}
+*/
 
 			}
 
 			@media screen and (max-width: 736px) {
-
+/*
 				ul.actions.pagination .next, ul.actions.pagination .previous {
 					min-width: 18em;
 				}
-
+*/
 			}
 
 			ul.actions.small li {
