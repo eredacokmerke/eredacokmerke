@@ -118,7 +118,10 @@ public class VeritabaniYoneticisi
                     + "select m.ID, m.BASLIK, m.ICERIK, m.OZET, m.OKUNMA, k.RESIM, k.ISIM, k.ID "
                     + "from MAKALE as m, KATEGORI as k "
                     + "where m.ETIKET=k.ID "
-                    + "order by TARIH");
+                    + "order by TARIH "
+                    + "limit ?, ?");
+            pst.setInt(1, (eng.getNumaralandirmaSayfaNumarasi() - 1) * eng.getSayfaBasinaSonEklenenMakale());
+            pst.setInt(2, eng.getSayfaBasinaSonEklenenMakale());
             ResultSet rs = pst.executeQuery();
             while (rs.next())
             {
@@ -140,6 +143,49 @@ public class VeritabaniYoneticisi
         catch (SQLException e)
         {
             HataYoneticisi.yazdir(6, e.getMessage());
+            return false;
+        }
+    }
+
+    /**
+     * son eklenen makaleler listesinin altindaki numaralandirma kisminda kac
+     * sayfa sayfa numarasi gosterilecegini belirliyor
+     *
+     * @param eng : Engine nesnesi
+     * @return
+     */
+    public static boolean sonEklenenMakalelerNumaralandirmaSayisiGetir(Engine eng)
+    {
+        if (conn == null)//vt baglantisi yoksa acalim
+        {
+            if (!vtBaglantisiOlustur())
+            {
+                HataYoneticisi.yazdir(21, "vt baglantisi olusturulurken hata olustu");
+                eng.setNumaralandirmaToplamSayfaNumarasi(-1);
+                return false;
+            }
+        }
+        try
+        {
+            PreparedStatement pst = conn.prepareStatement("select count(*) from MAKALE");
+            ResultSet rs = pst.executeQuery();
+            if (rs.first())
+            {
+                int toplamSayfa = Integer.parseInt(rs.getString("count(*)")) / eng.getSayfaBasinaSonEklenenMakale() + 1;
+                eng.setNumaralandirmaToplamSayfaNumarasi(toplamSayfa);
+                return true;
+            }
+            else
+            {
+                HataYoneticisi.yazdir(22, "vt sorgusunda hata olustu");
+                eng.setNumaralandirmaToplamSayfaNumarasi(-1);
+                return false;
+            }
+        }
+        catch (SQLException e)
+        {
+            eng.setNumaralandirmaToplamSayfaNumarasi(-1);
+            HataYoneticisi.yazdir(23, e.getMessage());
             return false;
         }
     }

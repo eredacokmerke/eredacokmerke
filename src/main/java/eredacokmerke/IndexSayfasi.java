@@ -16,6 +16,10 @@ public class IndexSayfasi extends SayfaYoneticisi
         {
             return false;
         }
+        if (!VeritabaniYoneticisi.sonEklenenMakalelerNumaralandirmaSayisiGetir(eng))
+        {
+            return false;
+        }
         if (!VeritabaniYoneticisi.sonEklenenMakaleleriGetir(eng))
         {
             return false;

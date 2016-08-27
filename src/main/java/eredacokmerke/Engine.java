@@ -13,6 +13,10 @@ public class Engine
     private int okunanMakaleID;
     private Makale okunanMakale;
     private int okunanKategoriID;
+    private int numaralandirmaSayfaNumarasi;//makale listesinin altindaki numaralandirmada hangi sayfada olundugunu tutuyor
+    private int numaralandirmaToplamSayfaNumarasi;//makale listesinin altindaki numaralandirmanin toplam sayfa sayisi
+
+    private final int sayfaBasinaSonEklenenMakale = 3;//makale listelerinde bir sayfada kac makale gosterilecek
 
     public Engine(int sayfa)
     {
@@ -22,6 +26,7 @@ public class Engine
                 listeKategoriler = new ArrayList<Kategori>();
                 listeCokOkunanMakaleler = new ArrayList<Makale>();
                 listeSonEklenenMakaleler = new ArrayList<Makale>();
+                numaralandirmaSayfaNumarasi = 1;
                 break;
 
             case SayfaYoneticisi.SAYFA_MAKALE:
@@ -35,6 +40,7 @@ public class Engine
                 listeKategoriler = new ArrayList<Kategori>();
                 listeKategoriMakaleler = new ArrayList<Makale>();
                 okunanKategoriID = -1;
+                numaralandirmaSayfaNumarasi = 1;
                 break;
 
             default:
@@ -51,6 +57,12 @@ public class Engine
     public String kategoriIDyiGetir(int makaleID)
     {
         return VeritabaniYoneticisi.kategoriIDyiGetir(makaleID);
+    }
+
+    public void numaralamaTiklandi(int sayfa)
+    {
+        numaralandirmaSayfaNumarasi = sayfa;
+        VeritabaniYoneticisi.sonEklenenMakaleleriGetir(this);
     }
 
     public List<Kategori> getListeKategoriler()
@@ -121,5 +133,30 @@ public class Engine
     public void setOkunanKategoriID(int okunanKategoriID)
     {
         this.okunanKategoriID = okunanKategoriID;
+    }
+
+    public int getNumaralandirmaSayfaNumarasi()
+    {
+        return numaralandirmaSayfaNumarasi;
+    }
+
+    public void setNumaralandirmaSayfaNumarasi(int numaralandirmaSayfaNumarasi)
+    {
+        this.numaralandirmaSayfaNumarasi = numaralandirmaSayfaNumarasi;
+    }
+
+    public int getNumaralandirmaToplamSayfaNumarasi()
+    {
+        return numaralandirmaToplamSayfaNumarasi;
+    }
+
+    public void setNumaralandirmaToplamSayfaNumarasi(int numaralandirmaToplamSayfaNumarasi)
+    {
+        this.numaralandirmaToplamSayfaNumarasi = numaralandirmaToplamSayfaNumarasi;
+    }
+
+    public int getSayfaBasinaSonEklenenMakale()
+    {
+        return sayfaBasinaSonEklenenMakale;
     }
 }
