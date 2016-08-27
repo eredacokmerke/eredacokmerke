@@ -1,11 +1,11 @@
 package eredacokmerke;
 
 import javax.faces.bean.ManagedBean;
-import javax.faces.bean.RequestScoped;
+import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
 
 @ManagedBean
-@RequestScoped
+@SessionScoped
 public class MainBean
 {
 
@@ -21,8 +21,11 @@ public class MainBean
      */
     public void indexCagrildi()
     {
+        engineSil();
+
         IndexSayfasi indexSayfasi = new IndexSayfasi();
         engine = new Engine(SayfaYoneticisi.SAYFA_INDEX);
+
         if (!indexSayfasi.cagrildi(engine))
         {
             HataYoneticisi.yazdir(5, "MainBean.indexCagrildi metodunda hata olustu");
@@ -34,8 +37,9 @@ public class MainBean
      */
     public void makaleCagrildi()
     {
-        int id = Integer.valueOf(FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap().get("id"));
+        engineSil();
 
+        int id = Integer.valueOf(FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap().get("id"));
         MakaleSayfasi makaleSayfasi = new MakaleSayfasi();
         engine = new Engine(SayfaYoneticisi.SAYFA_MAKALE);
         engine.setOkunanMakaleID(id);
@@ -52,8 +56,9 @@ public class MainBean
      */
     public void kategoriCagrildi()
     {
-        int id = Integer.valueOf(FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap().get("id"));
+        engineSil();
 
+        int id = Integer.valueOf(FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap().get("id"));
         KategoriSayfasi kategoriSayfasi = new KategoriSayfasi();
         engine = new Engine(SayfaYoneticisi.SAYFA_KATEGORI);
         engine.setOkunanKategoriID(id);
@@ -62,6 +67,15 @@ public class MainBean
         {
             HataYoneticisi.yazdir(12, "MainBean.kategoriCagrildi metodunda hata olustu");
         }
+    }
+
+    /**
+     * engine nesnesini null a esitleyip garbage collector u cagirir
+     */
+    public void engineSil()
+    {
+        engine = null;
+        System.gc();
     }
 
     public Engine getEngine()
