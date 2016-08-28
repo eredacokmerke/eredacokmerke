@@ -16,7 +16,8 @@ public class Engine
     private int numaralandirmaSayfaNumarasi;//makale listesinin altindaki numaralandirmada hangi sayfada olundugunu tutuyor
     private int numaralandirmaToplamSayfaNumarasi;//makale listesinin altindaki numaralandirmanin toplam sayfa sayisi
 
-    private final int sayfaBasinaSonEklenenMakale = 3;//makale listelerinde bir sayfada kac makale gosterilecek
+    private final int sayfaBasinaSonEklenenMakale = 5;//makale listelerinde bir sayfada kac makale gosterilecek
+    private final int sayfaBasinaCokOkunanMakale = 5;//makale listelerinde bir sayfada kac makale gosterilecek
 
     public Engine(int sayfa)
     {
@@ -158,5 +159,10 @@ public class Engine
     public int getSayfaBasinaSonEklenenMakale()
     {
         return sayfaBasinaSonEklenenMakale;
+    }
+
+    public int getSayfaBasinaCokOkunanMakale()
+    {
+        return sayfaBasinaCokOkunanMakale;
     }
 }
