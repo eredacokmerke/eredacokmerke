@@ -1,10 +1,13 @@
 package eredacokmerke;
 
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.text.SimpleDateFormat;
+import java.util.Locale;
 
 public class VeritabaniYoneticisi
 {
@@ -115,7 +118,7 @@ public class VeritabaniYoneticisi
             eng.getListeSonEklenenMakaleler().clear();
 
             PreparedStatement pst = conn.prepareStatement(""
-                    + "select m.ID, m.BASLIK, m.ICERIK, m.OZET, m.OKUNMA, k.RESIM, k.ISIM, k.ID "
+                    + "select m.ID, m.BASLIK, m.ICERIK, m.OZET, m.OKUNMA, m.TARIH, k.RESIM, k.ISIM, k.ID "
                     + "from MAKALE as m, KATEGORI as k "
                     + "where m.ETIKET=k.ID "
                     + "order by TARIH "
@@ -129,11 +132,12 @@ public class VeritabaniYoneticisi
                 String makaleBaslik = rs.getString("m.BASLIK");
                 String makaleOzet = rs.getString("m.OZET");
                 String makaleOkunma = rs.getString("m.OKUNMA");
+                String makaleTarih = rs.getString("m.TARIH");
                 String makaleResim = rs.getString("k.RESIM");
                 String makaleEtiket = rs.getString("k.ISIM");
                 String makaleEtiketID = rs.getString("k.ID");
 
-                Makale makale = new Makale(makaleID, makaleBaslik, "", makaleOzet, "", "", makaleOkunma, makaleEtiket, makaleEtiketID, makaleResim);
+                Makale makale = new Makale(makaleID, makaleBaslik, "", makaleOzet, unixTimeToTarih(Long.parseLong(makaleTarih)), "", makaleOkunma, makaleEtiket, makaleEtiketID, makaleResim);
 
                 eng.getListeSonEklenenMakaleler().add(makale);
             }
@@ -256,7 +260,7 @@ public class VeritabaniYoneticisi
         try
         {
             PreparedStatement pst = conn.prepareStatement(""
-                    + "select m.BASLIK, m.ICERIK, m.OKUNMA, k.RESIM, k.ISIM, k.ID "
+                    + "select m.BASLIK, m.ICERIK, m.OKUNMA, m.TARIH, k.RESIM, k.ISIM, k.ID "
                     + "from MAKALE AS m, KATEGORI AS k "
                     + "where m.ETIKET=k.ID and m.ID=?");
             pst.setString(1, String.valueOf(eng.getOkunanMakaleID()));
@@ -266,11 +270,12 @@ public class VeritabaniYoneticisi
                 String makaleBaslik = rs.getString("m.BASLIK");
                 String makaleIcerik = rs.getString("m.ICERIK");
                 String makaleOkunma = rs.getString("m.OKUNMA");
+                String makaleTarih = rs.getString("m.TARIH");
                 String makaleResim = rs.getString("k.RESIM");
                 String makaleEtiket = rs.getString("k.ISIM");
                 String makaleKategoriID = rs.getString("k.ID");
 
-                Makale makale = new Makale(String.valueOf(eng.getOkunanMakaleID()), makaleBaslik, makaleIcerik, "", "", "", makaleOkunma, makaleEtiket, makaleKategoriID, makaleResim);
+                Makale makale = new Makale(String.valueOf(eng.getOkunanMakaleID()), makaleBaslik, makaleIcerik, "", unixTimeToTarih(Long.parseLong(makaleTarih)), "", makaleOkunma, makaleEtiket, makaleKategoriID, makaleResim);
 
                 eng.setOkunanMakale(makale);
                 eng.setOkunanKategoriID(Integer.parseInt(makaleKategoriID));
@@ -311,7 +316,7 @@ public class VeritabaniYoneticisi
             eng.getListeKategoriMakaleler().clear();
 
             PreparedStatement pst = conn.prepareStatement(""
-                    + "select m.ID, m.BASLIK, m.OZET, m.OKUNMA, k.RESIM, k.ISIM, k.ID "
+                    + "select m.ID, m.BASLIK, m.OZET, m.OKUNMA, m.TARIH, k.RESIM, k.ISIM, k.ID "
                     + "from MAKALE AS m, KATEGORI AS k "
                     + "where m.ETIKET=k.ID and k.ID=?");
             pst.setString(1, String.valueOf(eng.getOkunanKategoriID()));
@@ -322,11 +327,12 @@ public class VeritabaniYoneticisi
                 String makaleBaslik = rs.getString("m.BASLIK");
                 String makaleOzet = rs.getString("m.OZET");
                 String makaleOkunma = rs.getString("m.OKUNMA");
+                String makaleTarih = rs.getString("m.TARIH");
                 String makaleResim = rs.getString("k.RESIM");
                 String makaleEtiket = rs.getString("k.ISIM");
                 String makaleEtiketID = rs.getString("k.ID");
 
-                Makale makale = new Makale(makaleID, makaleBaslik, "", makaleOzet, "", "", makaleOkunma, makaleEtiket, makaleEtiketID, makaleResim);
+                Makale makale = new Makale(makaleID, makaleBaslik, "", makaleOzet, unixTimeToTarih(Long.parseLong(makaleTarih)), "", makaleOkunma, makaleEtiket, makaleEtiketID, makaleResim);
 
                 eng.getListeKategoriMakaleler().add(makale);
             }
@@ -445,5 +451,20 @@ public class VeritabaniYoneticisi
             HataYoneticisi.yazdir(20, e.getMessage());
             return "-1";
         }
+    }
+
+    /**
+     * vt deki unixtime ı okunabilir tarihe çevirir
+     *
+     * @param unixtime : unixtime degeri
+     * @return unixtime in formatlanmis hali
+     */
+    public static String unixTimeToTarih(long unixtime)
+    {
+        Date date = new Date(unixtime * 1000L); // 1000 saniyeyi milisnaniyeye cevirmek icin
+        SimpleDateFormat sdf = new SimpleDateFormat("d MMMM, yyyy", new Locale("tr"));
+        String formattedDate = sdf.format(date);
+
+        return formattedDate;
     }
 }
