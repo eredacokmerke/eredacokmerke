@@ -188,8 +188,8 @@ public class VeritabaniYoneticisi
         }
         catch (SQLException e)
         {
-            eng.setNumaralandirmaToplamSayfaNumarasi(-1);
             HataYoneticisi.yazdir(23, e.getMessage());
+            eng.setNumaralandirmaToplamSayfaNumarasi(-1);
             return false;
         }
     }
@@ -320,8 +320,11 @@ public class VeritabaniYoneticisi
             PreparedStatement pst = conn.prepareStatement(""
                     + "select m.ID, m.BASLIK, m.OZET, m.OKUNMA, m.TARIH, k.RESIM, k.ISIM, k.ID "
                     + "from MAKALE AS m, KATEGORI AS k "
-                    + "where m.ETIKET=k.ID and k.ID=?");
+                    + "where m.ETIKET=k.ID and k.ID=? "
+                    + "limit ?, ?");
             pst.setString(1, String.valueOf(eng.getOkunanKategoriID()));
+            pst.setInt(2, (eng.getNumaralandirmaSayfaNumarasi() - 1) * eng.getSayfaBasinaKategoriMakale());
+            pst.setInt(3, eng.getSayfaBasinaKategoriMakale());
             ResultSet rs = pst.executeQuery();
             while (rs.next())
             {
@@ -344,6 +347,53 @@ public class VeritabaniYoneticisi
         catch (SQLException e)
         {
             HataYoneticisi.yazdir(13, e.getMessage());
+            return false;
+        }
+    }
+    
+    /**
+     * son eklenen makaleler listesinin altindaki numaralandirma kisminda kac
+     * sayfa sayfa numarasi gosterilecegini belirliyor
+     *
+     * @param eng : Engine nesnesi
+     * @return
+     */
+    public static boolean kategoriMakalelerNumaralandirmaSayisiGetir(Engine eng)
+    {
+        if (conn == null)//vt baglantisi yoksa acalim
+        {
+            if (!vtBaglantisiOlustur())
+            {
+                HataYoneticisi.yazdir(24, "vt baglantisi olusturulurken hata olustu");
+                eng.setNumaralandirmaToplamSayfaNumarasi(-1);
+                return false;
+            }
+        }
+        try
+        {
+            PreparedStatement pst = conn.prepareStatement(""
+                    + "select count(*) from MAKALE AS m, KATEGORI AS k "
+                    + "where m.ETIKET=k.ID and k.ID=?");
+            pst.setString(1, String.valueOf(eng.getOkunanKategoriID()));
+            ResultSet rs = pst.executeQuery();
+            if (rs.first())
+            {
+                int toplamSayfa = Integer.parseInt(rs.getString("count(*)")) / eng.getSayfaBasinaKategoriMakale() + 1;
+                eng.setNumaralandirmaToplamSayfaNumarasi(toplamSayfa);
+                System.out.println("eredacokmerke.VeritabaniYoneticisi.kategoriMakalelerNumaralandirmaSayisiGetir() toplam sayfa : "+toplamSayfa);
+                return true;
+            }
+            else
+            {
+                HataYoneticisi.yazdir(25, "vt sorgusunda hata olustu");
+                eng.setNumaralandirmaToplamSayfaNumarasi(-1);
+                return false;
+            }
+        }
+        catch (SQLException e)
+        {
+            HataYoneticisi.yazdir(26, e.getMessage());
+            eng.setNumaralandirmaToplamSayfaNumarasi(-1);
             return false;
         }
     }

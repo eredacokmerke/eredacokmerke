@@ -16,6 +16,10 @@ public class KategoriSayfasi extends SayfaYoneticisi
         {
             return false;
         }
+        if (!VeritabaniYoneticisi.kategoriMakalelerNumaralandirmaSayisiGetir(eng))
+        {
+            return false;
+        }
         if (!VeritabaniYoneticisi.kategoriMakaleleriGetir(eng))
         {
             return false;

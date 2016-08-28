@@ -16,12 +16,16 @@ public class Engine
     private int numaralandirmaSayfaNumarasi;//makale listesinin altindaki numaralandirmada hangi sayfada olundugunu tutuyor
     private int numaralandirmaToplamSayfaNumarasi;//makale listesinin altindaki numaralandirmanin toplam sayfa sayisi
 
-    private final int sayfaBasinaSonEklenenMakale = 5;//makale listelerinde bir sayfada kac makale gosterilecek
-    private final int sayfaBasinaCokOkunanMakale = 5;//makale listelerinde bir sayfada kac makale gosterilecek
+    private final int sayfaBasinaSonEklenenMakale = 5;//son eklenen makale listesinde bir sayfada kac makale gosterilecek
+    private final int sayfaBasinaCokOkunanMakale = 5;//cok okunan makale listesinde bir sayfada kac makale gosterilecek
+    private final int sayfaBasinaKategoriMakale = 5;//son eklenen makale listesinde bir sayfada kac makale gosterilecek
+
+    private int sayfa_id = -1;//baslatilan sayfanin idsi
 
     public Engine(int sayfa)
     {
-        switch (sayfa)//index sayfasinda kullanilacak degiskenler
+        sayfa_id = sayfa;
+        switch (sayfa_id)//index sayfasinda kullanilacak degiskenler
         {
             case SayfaYoneticisi.SAYFA_INDEX:
                 listeKategoriler = new ArrayList<Kategori>();
@@ -60,10 +64,26 @@ public class Engine
         return VeritabaniYoneticisi.kategoriIDyiGetir(makaleID);
     }
 
+    /**
+     * numaralama kisminsa sayfa numarasina tiklaninca buraya geliyor. Liste
+     * guncelleniyor
+     *
+     * @param sayfa : gosterilecek sayfa numarasi
+     */
     public void numaralamaTiklandi(int sayfa)
     {
-        numaralandirmaSayfaNumarasi = sayfa;
-        VeritabaniYoneticisi.sonEklenenMakaleleriGetir(this);
+        setNumaralandirmaSayfaNumarasi(sayfa);
+        switch (sayfa_id)
+        {
+            case SayfaYoneticisi.SAYFA_INDEX:
+                VeritabaniYoneticisi.sonEklenenMakaleleriGetir(this);
+                break;
+            case SayfaYoneticisi.SAYFA_KATEGORI:
+                VeritabaniYoneticisi.kategoriMakaleleriGetir(this);
+                break;
+            default:
+                HataYoneticisi.yazdir(27, "numaralamaTiklandi metodunda sayfa id hatali");
+        }
     }
 
     public List<Kategori> getListeKategoriler()
@@ -164,5 +184,10 @@ public class Engine
     public int getSayfaBasinaCokOkunanMakale()
     {
         return sayfaBasinaCokOkunanMakale;
+    }
+
+    public int getSayfaBasinaKategoriMakale()
+    {
+        return sayfaBasinaKategoriMakale;
     }
 }
