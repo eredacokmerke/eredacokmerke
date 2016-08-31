@@ -53,3 +53,17 @@
 {
     text-align: justify;
 }
+
+.kategori-baslik 
+{
+    -webkit-box-sizing: content-box;
+    -moz-box-sizing: content-box;
+    box-sizing: content-box;
+    border: none;
+    font: normal 42px/normal "PT Mono", Helvetica, sans-serif;
+    color: rgba(107,107,107,1);
+    text-align: center;
+    -o-text-overflow: clip;
+    text-overflow: clip;
+    text-shadow: 1px 1px 0 rgba(180,180,180,1) , -1px -1px 0 rgba(180,180,180,1) , 1px -1px 0 rgba(180,180,180,1) , -1px 1px 0 rgba(180,180,180,1) , -1px 1px 8px rgba(114,114,114,1) ;
+}
