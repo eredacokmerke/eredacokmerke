@@ -215,7 +215,7 @@ public class VeritabaniYoneticisi
             eng.getListeCokOkunanMakaleler().clear();
 
             PreparedStatement pst = conn.prepareStatement(""
-                    + "select m.ID, m.BASLIK, m.ICERIK, m.OZET, m.OKUNMA, m.TARIH, k.ISIM, k.RESIM "
+                    + "select m.ID, m.BASLIK, m.ICERIK, m.OZET, m.OKUNMA, m.TARIH, k.ISIM, k.RESIM, k.ID "
                     + "from MAKALE AS m, KATEGORI AS k "
                     + "where m.ETIKET=k.ID "
                     + "order by OKUNMA desc limit ?");
@@ -229,9 +229,10 @@ public class VeritabaniYoneticisi
                 String makaleOkunma = rs.getString("m.OKUNMA");
                 String makaleTarih = rs.getString("m.TARIH");
                 String makaleIsim = rs.getString("k.ISIM");
+                String makaleEtiketID = rs.getString("k.ID");
                 String makaleResim = rs.getString("k.RESIM");
 
-                Makale makale = new Makale(makaleID, makaleBaslik, "", makaleOzet, unixTimeToTarih(Long.parseLong(makaleTarih)), "", makaleOkunma, makaleIsim, "", makaleResim);
+                Makale makale = new Makale(makaleID, makaleBaslik, "", makaleOzet, unixTimeToTarih(Long.parseLong(makaleTarih)), "", makaleOkunma, makaleIsim, makaleEtiketID, makaleResim);
 
                 eng.getListeCokOkunanMakaleler().add(makale);
             }

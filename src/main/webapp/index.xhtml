@@ -275,14 +275,13 @@
 
                         <ui:repeat value="#{mainBean.engine.listeCokOkunanMakaleler}" var="cokOkunanMakale" varStatus="i">
                             <li>
-
                                 <article>
                                     <table class="baslik">
                                         <tr class="baslik tr-border">
                                             <td class="baslik resim">
                                                 <div class="baslik">
-                                                    <h:link class="resim-link" outcome="makale">
-                                                        <f:param name="id" value="#{cokOkunanMakale.id}" />
+                                                    <h:link class="resim-link" outcome="kategori">
+                                                        <f:param name="id" value="#{cokOkunanMakale.etiketID}" />
                                                         <!--<img src="resources/images/#{cokOkunanMakale.resim}" alt="" />-->
                                                         <div class="kategori-baslik">#{cokOkunanMakale.etiket}</div>
                                                     </h:link>
@@ -292,7 +291,9 @@
                                                 <div>
                                                     <header>
                                                         <h3 class="baslik-yazi margin1">
-                                                            <a href="#">#{cokOkunanMakale.baslik}</a>
+                                                            <h:link value="#{cokOkunanMakale.baslik}" outcome="makale">
+                                                                <f:param name="id" value="#{cokOkunanMakale.id}" />
+                                                            </h:link>
                                                         </h3>
                                                         <time class="published">#{cokOkunanMakale.tarih}</time>
                                                     </header>
@@ -302,7 +303,6 @@
                                         </tr>
                                     </table> 
                                 </article>
-
 
                                 <!--
                                 <article>
