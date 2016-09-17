@@ -1,0 +1,29 @@
+ilk önce main.c isminde bir dosya oluşturalım. bu uygulama sadece ekrana merhaba yazsın
+<pre><code>#include <stdio.h>
+int main(int argc, char const *argv[])
+{
+    printf("merhaba\n");
+    return 0;
+}
+</code></pre> bu kodu derlemek için gcc komutuna kaynak dosyayı parametre olarak vermelisin.<code>gcc main.c</code> komutu parametrede verilen dosyayı derleyip binary dosyayı oluşturur.
+derleme sonunda <code>a.out</code> isimli bir dosya oluşur. eğer dosya ismi belirtilmezse öntanımlı olarak çalıştırılabilir dosya <code>a.out</code> ismiyle oluşur.
+<code>./a.out</code> komutuyla bu uygulamayı çalıştırabilirsin. gcc komutuna parametre vererek bazı şeyleri değiştirebilirsin. <code>gcc --help</code> bütün parametre seçeneklerini listeler.
+<br /><br />
+<h3>-o</h3> eğer derleme işlemi sonrasında oluşacak olan dosya ismi <code>-c</code> parametresi ile verilebilir. bu parametre kullanılmazsa dosya <code>a.out</code> olarak oluşur. mesela üstteki örnekte bunu denersek
+<code>gcc main.c -o merhaba</code> seklinde gcc komutunu kullanırsak derleme sırasında oluşan dosyanın ismi merhaba olur. <code>-o</code> parametresinin kullanılmadığı durumda dosya ismi <code>a.out</code> olur
+<br /><br />
+<h3>-c</h3> bu parametre kaynak dosyadan obje dosyasını oluşturur. obje dosyası çalıştırılabilir bir dosya değildir. çalıştırılabilir dosyayı oluşturmak için obje dosyası gcc ye tekrar parametre olarak verilmelidir. main.c dosyamız için deneyecek olursak
+<br />
+<pre><code>gcc -c main.c  // obje dosyası oluşturur
+gcc main.o     //obje dosyasından binary dosyayı oluşturur
+</code></pre> derleme işlemini bu sekilde yapmanın avantajı birden fazla dosyadan oluşan programlarda derleme yapılırken sadece değişikliğin olduğu kaynak kod dosyasını derlemek yeterli olmasıdır. örneğin 3 dosyadan oluşan bir program şöyle derlenir
+<code>gcc dosya1.c dosya2.c dosya3.c</code> dosya1.c de bir değişiklik yapıldıktan sonra tekrar derleme yapıldığı zaman değişikliğin yapılmadığı dosya2.c ve dosya3.c dosyaları da gereksiz yere derlenmiş olur. eğer derleme ve linkleme işlemlerini ayırırsak işlem şu şekilde yapılırken
+<pre><code>gcc -c dosya1.c
+gcc -c dosya2.c
+gcc -c dosya3.c
+gcc dosya1.o dosya2.o dosya3.o
+</code></pre> yine dosya1 üzerinde bir değişiklik yapıldıktan sonra diğer 2 dosyanın obje dosyaları elimizde olduğu için onlarla ilgili bir işlem yapmamıza gerek yoktur. bu durumda derleme işlemi şu şekilde yapılır:
+<pre><code>gcc -c dosya1.c
+gcc dosya1.o dosya2.o dosya3.o
+</code></pre>
+<h3>-Wall</h3> derleme sırasında oluşan hataların daha ayrıntılı bir sekilde gösterilmesi için kullanılır. bu hata mesajlari uygulamadaki sorunları çözmede kullanılacağı için -Wall önemlidir.
