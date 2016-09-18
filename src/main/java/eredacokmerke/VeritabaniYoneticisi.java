@@ -123,7 +123,7 @@ public class VeritabaniYoneticisi
                     + "select m.ID, m.BASLIK, m.ICERIK, m.OZET, m.OKUNMA, m.TARIH, k.RESIM, k.ISIM, k.ID "
                     + "from MAKALE as m, KATEGORI as k "
                     + "where m.ETIKET=k.ID "
-                    + "order by TARIH "
+                    + "order by TARIH desc "
                     + "limit ?, ?");
             pst.setInt(1, (eng.getNumaralandirmaSayfaNumarasi() - 1) * eng.getSayfaBasinaSonEklenenMakale());
             pst.setInt(2, eng.getSayfaBasinaSonEklenenMakale());
