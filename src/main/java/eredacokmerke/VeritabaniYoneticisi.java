@@ -1,12 +1,14 @@
 package eredacokmerke;
 
 import java.sql.Connection;
-import java.sql.Date;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.text.DateFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.Locale;
 
 public class VeritabaniYoneticisi
@@ -137,7 +139,7 @@ public class VeritabaniYoneticisi
                 String makaleEtiket = rs.getString("k.ISIM");
                 String makaleEtiketID = rs.getString("k.ID");
 
-                Makale makale = new Makale(makaleID, makaleBaslik, "", makaleOzet, unixTimeToTarih(Long.parseLong(makaleTarih)), "", makaleOkunma, makaleEtiket, makaleEtiketID, makaleResim);
+                Makale makale = new Makale(makaleID, makaleBaslik, "", makaleOzet, tarihiFormatla(makaleTarih), "", makaleOkunma, makaleEtiket, makaleEtiketID, makaleResim);
 
                 eng.getListeSonEklenenMakaleler().add(makale);
             }
@@ -232,7 +234,7 @@ public class VeritabaniYoneticisi
                 String makaleEtiketID = rs.getString("k.ID");
                 String makaleResim = rs.getString("k.RESIM");
 
-                Makale makale = new Makale(makaleID, makaleBaslik, "", makaleOzet, unixTimeToTarih(Long.parseLong(makaleTarih)), "", makaleOkunma, makaleIsim, makaleEtiketID, makaleResim);
+                Makale makale = new Makale(makaleID, makaleBaslik, "", makaleOzet, tarihiFormatla(makaleTarih), "", makaleOkunma, makaleIsim, makaleEtiketID, makaleResim);
 
                 eng.getListeCokOkunanMakaleler().add(makale);
             }
@@ -279,7 +281,7 @@ public class VeritabaniYoneticisi
                 String makaleEtiket = rs.getString("k.ISIM");
                 String makaleKategoriID = rs.getString("k.ID");
 
-                Makale makale = new Makale(String.valueOf(eng.getOkunanMakaleID()), makaleBaslik, makaleIcerik, "", unixTimeToTarih(Long.parseLong(makaleTarih)), "", makaleOkunma, makaleEtiket, makaleKategoriID, makaleResim);
+                Makale makale = new Makale(String.valueOf(eng.getOkunanMakaleID()), makaleBaslik, makaleIcerik, "", tarihiFormatla(makaleTarih), "", makaleOkunma, makaleEtiket, makaleKategoriID, makaleResim);
 
                 eng.setOkunanMakale(makale);
                 eng.setOkunanKategoriID(Integer.parseInt(makaleKategoriID));
@@ -339,7 +341,7 @@ public class VeritabaniYoneticisi
                 String makaleEtiket = rs.getString("k.ISIM");
                 String makaleEtiketID = rs.getString("k.ID");
 
-                Makale makale = new Makale(makaleID, makaleBaslik, "", makaleOzet, unixTimeToTarih(Long.parseLong(makaleTarih)), "", makaleOkunma, makaleEtiket, makaleEtiketID, makaleResim);
+                Makale makale = new Makale(makaleID, makaleBaslik, "", makaleOzet, tarihiFormatla(makaleTarih), "", makaleOkunma, makaleEtiket, makaleEtiketID, makaleResim);
 
                 eng.getListeKategoriMakaleler().add(makale);
             }
@@ -352,7 +354,7 @@ public class VeritabaniYoneticisi
             return false;
         }
     }
-    
+
     /**
      * son eklenen makaleler listesinin altindaki numaralandirma kisminda kac
      * sayfa sayfa numarasi gosterilecegini belirliyor
@@ -382,7 +384,7 @@ public class VeritabaniYoneticisi
             {
                 int toplamSayfa = Integer.parseInt(rs.getString("count(*)")) / eng.getSayfaBasinaKategoriMakale() + 1;
                 eng.setNumaralandirmaToplamSayfaNumarasi(toplamSayfa);
-                System.out.println("eredacokmerke.VeritabaniYoneticisi.kategoriMakalelerNumaralandirmaSayisiGetir() toplam sayfa : "+toplamSayfa);
+                System.out.println("eredacokmerke.VeritabaniYoneticisi.kategoriMakalelerNumaralandirmaSayisiGetir() toplam sayfa : " + toplamSayfa);
                 return true;
             }
             else
@@ -504,6 +506,32 @@ public class VeritabaniYoneticisi
         {
             HataYoneticisi.yazdir(20, e.getMessage());
             return "-1";
+        }
+    }
+
+    /**
+     * vt den gelen tarihi kullanilacak tarih bicimine cevirir
+     *
+     * @param tarih : vt den gelen tarih
+     * @return sitede kullanilacak tarih doner. eger hata olusursa bos string
+     * doner
+     */
+    public static String tarihiFormatla(String tarih)
+    {
+        try
+        {
+            DateFormat format = new SimpleDateFormat("yyyy-MM-dd", Locale.ENGLISH);
+            Date date = format.parse(tarih);
+
+            SimpleDateFormat sdf = new SimpleDateFormat("d MMMM, yyyy", new Locale("tr"));
+            String formattedDate = sdf.format(date);
+
+            return formattedDate;
+        }
+        catch (ParseException e)
+        {
+            HataYoneticisi.yazdir(28, e.getMessage());
+            return "";
         }
     }
 
