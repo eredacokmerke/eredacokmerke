@@ -1,0 +1,33 @@
+ikinci bölümde sadece <code>main.c</code> dosyasından oluşan bir uygulama derlendi. şimdi bu <code>main.c</code> dosyasının yanında projeye yeni dosyalar ekleyelim. ekleyeceğimiz dosyalar <code>dosya.c</code> ve <code>dosya.h</code> olsun.<pre><code>//main.c
+#include &#60;stdio.h&#62;
+#include "dosya.h"
+int main(int argc, char const *argv[])
+{
+	int sonuc = topla(3,5)
+	printf("sonuc : %d \n", sonuc);
+
+	return 0;
+}
+</code></pre><pre><code>//dosya.h
+#ifndef _dosya_h
+#define _dosya_h
+
+int topla(int, int);
+
+#endif
+</code></pre><pre><code>//dosya.c
+#include &#60;stdio.h&#62;
+#include "dosya.h"
+
+int topla(int a, int b)
+{
+	return a+b;
+}
+</code></pre> dosya.c dosyası topla() isimli bir tane fonksiyon barındırıyor. bu fonksiyon gelen iki parametreyi toplayıp sonucu geri döndürüyor. main.c ise bu topla() fonksiyonunu çağırıyor. su halde main.c dosyası topla() fonksiyonunu kullanabilmek için dosya.c ve dosya.h dosyalarına ihtiyaç duyuyor. bu durumda derleme işlemi sırasında gcc komutuna parametre olarak main.c yanında dosya.c de verilmelidir. yani yeni gcc komutu şu şekilde olmalı
+<pre><code>gcc -Wall main.c dosya.c</code></pre> eğer parametre olarak sadece main.c verilirse derleyici topla() fonksiyonunu bulamayacak ve hata verecektir. eğer komut satırına <code>gcc -Wall main.c</code> yazılırsa şu hata alınır
+<pre><code>gcc -Wall main.c
+/tmp/ccqSPNFk.o: In function `main':
+main.c:(.text+0x1f): undefined reference to `topla'
+collect2: error: ld returned 1 exit status
+</code></pre> Fakat bu tur bir derleme işleminde şöyle bir sıkıntı vardır. çok fazla .c ve .h dosyalarının bulunduğu bir projede çalışılıyorsa en ufak bir değişiklikte bütün dosyaları tekrar derlemek gerekir. bu ise gereksiz yere derleme için sarfedilen zamanı arttırır. Bu derleme komutu yerine önce obje dosyaları oluşturulup, sonra bu obje dosyaları ile çalıştırılabilir dosya oluşturulursa bu sorunun üstesinden gelinmiş olur. örneğin bu projede obje dosyalarını oluşturmak için şu komutu vermeliyiz<pre><code>gcc -Wall -c main.c</code></pre> bu komut main.c dosyasından obje dosyasını oluşturur. eğer tüm c dosyaları için obje dosyalarını bir komutla oluşturmak isteniyorsa şu komut verilmelidir<pre><code>gcc -Wall -c *.c</code></pre> bu komut tüm c uzantılı dosyaların obje dosyasını oluşturur. ikinci aşama bu obje dosyalarını kullanarak çalıştırılabilir dosyayı oluşturmaktır. bunun için şu komut verilir. <pre><code>gcc -Wall dosya1.o main.o</code></pre> bu komut a.out isimli dosyayı oluşturur. eğer ismi derleme sirasinda verilmek isteniyorsa <code>-o</code> kullanılmalıdır <pre><code>gcc -Wall dosya1.o main.o -o uyg</code></pre> eğer çok fazla .o dosyası varsa hepsini komuta yazmak zor olacağından bütün .o dosyaları şu sekilde gösterilebilir <pre><code>gcc -Wall *.o -o uyg</code></pre> bu durumda dosya.c dosyasında değişiklik yapıldığı takdirde main.c dosyasının tekrar derlenmesine gerek yoktur. sadece dosya.c dosyasının obje dosyası olusturulur ve tekrar obje dosyalarında çalıştırılabilir dosya oluşturulur.toparlayacak olursak birden fazla c dosyasından oluşan projelerde derleme yapmak için bütün c dosyalarının gcc komutuna verilmesi gerekir <pre><code>gcc -Wall *.c -o uyg</code></pre> fakat daha önce obje dosyalarını oluşturup sonra çalıştırılabilir dosyayı oluşturmak daha iyi bir yaklaşımdır <pre><code>gcc -Wall -c *.c
+gcc -Wall *.o -o uyg</code></pre>
