@@ -1,0 +1,26 @@
+uygulamayi kütüphane olarak derlemek olusturulan fonksiyonlarin daha sonra baska uygulamalada da kulanılabilmesini sağlar. static ve shared olmaz üzere iki tür kütüphane vardır. unix sistemlerde static kütüphaneler .a, shared kütüphaneler ise .so uzantılı dosyalardır. static kütüphanede ihtiyac duyulan butun kodlar programa derlenirken link edilir. program calışırken kütüphaneye ihtiyac duymaz fakat programın dosya boyutu daha büyük olur. shared kütüphane ile derleme yapılmışsa uygulama çalışmak için kütüphaneye ihtiyaç duyar. bir önceki makalede olusurulan dosya.c ve dosya.h dosyalarını static kütüphane olusturmak için kullanalım.<pre><code>//main.c
+#include <stdio.h>
+#include "dosya.h"
+int main(int argc, char const *argv[])
+{
+	int sonuc = topla(3,5);
+	printf("sonuc : %d \n", sonuc);
+
+	return 0;
+}
+</code></pre><pre><code>//dosya.h
+#ifndef _dosya_h
+#define _dosya_h
+
+int topla(int, int);
+
+#endif
+</code></pre><pre><code>//dosya.c
+#include <stdio.h>
+#include "dosya.h"
+
+int topla(int a, int b)
+{
+	return a+b;
+}
+</code></pre> ilk önce kütüphane olusturulacak dosyanın <code>gcc -c dosya.c</code> komutuyla obje dosyası oluşturulur. <code>ar rcs libdosya.a dosya.o</code> komutuyla static kütüphane oluşmuş olur. dosya.c dosyasindaki topla() fonksiyonunu kullanmak icin main.c yi üretilen kütüphane ile derlemek yeterlidir. <code>gcc -static main.c -L -ldosya -o main</code> komutu main.c yi libdosya.a kütüphanesini kullanarak derler. derlemede kütüphane kullanıldığı için dosya.c derlemeye dahil edilmez. aynı dosyalarla shared kütüphane oluşturmak için ilk önce <code>gcc -c -fpic dosya.c -o dosya.o</code> komutuyla kütüphane oluşturulacak dosyanın obje dosyası oluşturulur.<code>gcc -shared -o libdosya.so dosya.o</code> komutuyla shared kütüphane oluşmuş olur. bu kütüphane ile main.c yi derlemek için <code>gcc -L/home/uygulama -Wl,-rpath,/home/uygulama -o test main.c -ldosya</code> komutu verilir. /home/uygulama kütüphane dosyasının bulunduğu klasordür.
